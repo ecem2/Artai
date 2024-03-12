@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.adentech.artai.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_generateFragment"
+            app:destination="@id/generateFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_artStyleFragment"
+            app:destination="@id/artStyleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/generateFragment"
+        android:name="com.adentech.artai.ui.generate.GenerateFragment"
+        android:label="GenerateFragment"
+        tools:layout="@layout/fragment_generate">
+        <argument
+            android:name="requestModel"
+            app:argType="com.adentech.artai.data.model.RequestModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/artStyleFragment"
+        android:name="com.adentech.artai.ui.arts.ArtStyleFragment"
+        android:label="ArtStyleFragment"
+        tools:layout="@layout/fragment_art_style" />
+</navigation>

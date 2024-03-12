@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_home">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_back"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:src="@drawable/ic_generate_exit"
+                app:layout_constraintBottom_toTopOf="@+id/gl_generate_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_generate_title"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="Artwork Name"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18"
+                app:layout_constraintBottom_toTopOf="@+id/gl_generate_title"
+                app:layout_constraintEnd_toStartOf="@+id/button_edit"
+                app:layout_constraintStart_toEndOf="@+id/iv_back"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/button_edit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/margin_24"
+                android:src="@drawable/ic_generate_edit"
+                app:layout_constraintBottom_toTopOf="@+id/gl_generate_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_generate_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.10" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bg_image"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
+                app:layout_constraintBottom_toTopOf="@+id/gl_generate_image"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gl_generate_title">
+
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/animationView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/image_loading" />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/iv_generated_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:riv_corner_radius="16dp"
+                    />
+<!--                <androidx.appcompat.widget.AppCompatTextView-->
+<!--                    android:id="@+id/tv_generating"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:fontFamily="@font/inter_medium"-->
+<!--                    android:gravity="top|center"-->
+<!--                    android:padding="@dimen/padding_12"-->
+<!--                    android:text="@string/generating_variations"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="@dimen/text_size_16"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/animationView" />-->
+
+                <!--            <androidx.appcompat.widget.AppCompatImageView-->
+                <!--                android:layout_width="46dp"-->
+                <!--                android:layout_height="46dp"-->
+                <!--                android:src="@drawable/ic_arrow_down"-->
+                <!--                android:padding="@dimen/padding_12"-->
+                <!--                android:background="@drawable/bg_oval"-->
+                <!--                android:gravity="center"-->
+                <!--                android:layout_marginEnd="@dimen/margin_12"-->
+                <!--                android:layout_marginBottom="@dimen/margin_12"-->
+                <!--                app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_generate_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.50" />
+
+            <!--        <androidx.recyclerview.widget.RecyclerView-->
+            <!--            android:id="@+id/rv_arts"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="0dp"-->
+            <!--            android:layout_marginStart="@dimen/margin_24"-->
+            <!--            android:layout_marginTop="@dimen/margin_12"-->
+            <!--            android:layout_marginEnd="@dimen/margin_24"-->
+            <!--            android:layout_marginBottom="@dimen/margin_12"-->
+            <!--            android:orientation="horizontal"-->
+            <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+            <!--            app:layout_constraintBottom_toTopOf="@+id/gl_generate_bottom"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/gl_generate_image"-->
+            <!--            tools:listitem="@layout/item_art_style" />-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toTopOf="@+id/gl_generate_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gl_generate_image"
+                android:background="@drawable/bg_artwork_black"
+                android:layout_marginEnd="@dimen/margin_40"
+                android:layout_marginStart="@dimen/margin_40"
+                android:text="Orci proin mauris ultrices fusce nunc. Placerat sed lectus mauris"
+                android:fontFamily="@font/nunito_regular"
+                android:textSize="@dimen/margin_18"
+                android:gravity="center"
+                android:padding="@dimen/margin_10"
+                android:textColor="@color/white"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_generate_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_marginBottom="@dimen/margin_30"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gl_generate_bottom">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_28"
+                    android:background="@drawable/bg_black_round"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_re_create"
+                    app:backgroundTint="@null" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_download"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_28"
+                    android:background="@drawable/bg_black_round"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_generate_save"
+                    app:backgroundTint="@null" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/button_share"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_28"
+                    android:background="@drawable/bg_black_round"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_generate_share"
+                    app:backgroundTint="@null" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

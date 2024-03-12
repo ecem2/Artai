@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="main_bg">#221A37</color>
+    <color name="main_color">#5D3974</color>
+    <color name="light_gray">#F5F5F5</color>
+    <color name="bg_gray">#80605E5E</color>
+    <color name="bg_purple">#426C4BFF</color>
+    <color name="purple">#6949FF</color>
+    <color name="black_transparent">#7A000000</color>
+    <color name="gray_100">#9795A4</color>
+    <color name="icActive">#FFFFFFFF</color>
+    <color name="icFocused">#DDFFFFFF</color>
+    <color name="icPressed">#AAFFFFFF</color>
+    <color name="transparent">#0FFFFFFF</color>
+    <color name="blurry_bg">#4D080C1E</color>
+
+    <color name="bottom_nav_selected">#221A37</color>
+    <color name="bottom_nav_unselected">#9795A4</color>
+
+</resources>

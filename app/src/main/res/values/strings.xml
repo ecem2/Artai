@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Artai</string>
+    <string name="generate">Generate</string>
+    <string name="bring_your_nideas_to_life">Bring your\nideas to life</string>
+    <string name="enter_prompt">Enter prompt</string>
+    <!--    <string name="prompt_hint">Super detailed create a nft of happy baby alien robot warrior with glasses. Super detailed create a nft of happy baby alien robot warrior with glasses. Super detailed create a nft of happy baby alien robot warrior with glasses. </string>-->
+
+    <string name="prompt_hint">a close up, studio photographic portrait of a white siamese cat that looks curious, backlit ears</string>
+    <string name="size">Size</string>
+    <string name="art_style">Art Style</string>
+    <string name="all">All -></string>
+
+    <string name="size_one">256x256</string>
+    <string name="size_two">512x512</string>
+    <string name="size_three">1024x1024</string>
+    <string name="share">Share</string>
+    <string name="edit">Edit</string>
+    <string name="search">Search</string>
+    <string name="continue_selected">Continue Selected</string>
+    <string name="generating_variations">Generating Variations</string>
+
+    <string name="no_photos_uploaded_yet">No photos uploaded yet</string>
+    <string name="choose_from">Choose from:</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="reset">Reset</string>
+
+    <string name="permission_required">Camera access is required to display the camera preview.</string>
+    <string name="permission_ok">OK</string>
+    <string name="permission_granted">Permission is granted. You can use the camera now.</string>
+    <string name="go_to_settings">Go to settings</string>
+    <string name="allow">Allow</string>
+    <string name="cancel">Cancel</string>
+    <string name="read_write_permission_title">Permission Required</string>
+    <string name="read_write_permission_description">Your permission is required to access the photos. If the permission dialog does not appear, you need to give permission from the application settings.</string>
+    <string name="capture_button">Capture</string>
+    <string name="switch_camera_button_alt">Switch camera</string>
+    <string name="gallery_button_alt">Gallery</string>
+    <string name="you_can_edit">You can edit any part of the image you want to change.</string>
+    <string name="edit_hint">a sunlit indoor lounge area with a pool containing a flamingo</string>
+    <string name="home">Home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663368894296",
+    "project_id": "artai-b567b",
+    "storage_bucket": "artai-b567b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663368894296:android:15f3d1dd3e3b6724f8872d",
+        "android_client_info": {
+          "package_name": "com.adentech.artai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgFZ9kHkkblPdS0JED8M-YHQwnmTKzIbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
