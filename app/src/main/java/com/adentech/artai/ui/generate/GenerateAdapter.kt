@@ -30,10 +30,10 @@ class GenerateAdapter(
             val item = getItem(position)
             holder.bind(item, onItemClicked)
 
-            Glide.with(holder.itemView.context).load(item.animation).into(holder.binding.ivArtImage)
+            Glide.with(holder.itemView.context).load(item.animation).into(holder.binding.imgAnimation)
             if (imagesLoaded) {
                 holder.binding.imgAnimation.cancelAnimation()
-                Glide.with(holder.itemView.context).load(item.image).into(holder.binding.ivArtImage)
+                Glide.with(holder.itemView.context).load(item.image).into(holder.binding.imgAnimation)
             }
         }
     }

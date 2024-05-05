@@ -3,6 +3,7 @@ package com.adentech.artai.extensions
 
 import androidx.lifecycle.*
 import com.adentech.artai.core.common.Event
+import com.adentech.artai.core.common.Resource
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 

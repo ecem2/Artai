@@ -1,6 +1,6 @@
 package com.adentech.artai.di
 
-import com.adentech.artai.core.common.Constants.BASE_URL_EDIT
+import com.adentech.artai.core.common.Constants.BASE_URL_GENERATION
 import com.adentech.artai.core.common.Constants.TIME_OUT
 import com.adentech.artai.data.preferences.Preferences
 import com.adentech.artai.data.remote.ApiService
@@ -24,7 +24,7 @@ object NetworkModule  {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BASE_URL_EDIT)
+            .baseUrl(BASE_URL_GENERATION)
             .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())

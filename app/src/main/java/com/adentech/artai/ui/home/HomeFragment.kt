@@ -1,7 +1,12 @@
 package com.adentech.artai.ui.home
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.MediaStore
 import android.util.Log
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -23,10 +28,12 @@ import com.adentech.artai.databinding.FragmentHomeBinding
 import com.adentech.artai.extensions.hideKeyboard
 import com.adentech.artai.extensions.multilineDone
 import com.adentech.artai.extensions.multilineIme
+import com.adentech.artai.extensions.navigate
 import com.adentech.artai.ui.arts.ArtStyleFragment
 import com.adentech.artai.ui.generate.GenerateFragment
 import com.adentech.artai.ui.watch.WatchAdsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
@@ -57,17 +64,26 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         setupEdittext()
 
         viewBinding.buttonGenerate.setOnClickListener {
-            if (ArtaiApplication.hasSubscription) {
-                promptMessage = viewBinding.etPrompt.text.toString()
-                if (promptMessage.isNotBlank() && promptMessage.isNotEmpty()) {
-                    onGenerateClicked()
+//            if (ArtaiApplication.hasSubscription) {
+//                promptMessage = viewBinding.etPrompt.text.toString()
+//                if (promptMessage.isNotBlank() && promptMessage.isNotEmpty()) {
+//                    onGenerateClicked()
+//
+//                } else {
+//                    Toast.makeText(requireContext(), "Please enter a prompt", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//            }else{
+//                navigateWatchAdsFragment()
+//            }
 
-                } else {
-                    Toast.makeText(requireContext(), "Please enter a prompt", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }else{
-                navigateWatchAdsFragment()
+            promptMessage = viewBinding.etPrompt.text.toString()
+            if (promptMessage.isNotBlank() && promptMessage.isNotEmpty()) {
+                onGenerateClicked()
+
+            } else {
+                Toast.makeText(requireContext(), "Please enter a prompt", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -101,17 +117,18 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         }
     }
     private fun navigateGenerateFragment(requestModel: RequestModel) {
-        val bundle = Bundle()
-        bundle.putParcelable(REQUEST_MODEL, requestModel)
-        val generateFragment = GenerateFragment()
-        generateFragment.arguments = bundle
+//        val bundle = Bundle()
+//        bundle.putParcelable(REQUEST_MODEL, requestModel)
+//        val generateFragment = GenerateFragment()
+//        generateFragment.arguments = bundle
 
-        parentFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, generateFragment)
-            attach(HomeFragment())
-            addToBackStack(HOME_SCREEN)
-            commit()
-        }
+        navigate(HomeFragmentDirections.actionHomeFragmentToGenerateFragment(requestModel))
+
+//        parentFragmentManager.beginTransaction().apply {
+//            attach(HomeFragment())
+//            addToBackStack(HOME_SCREEN)
+//            commit()
+//        }
     }
     private fun setupEdittext() {
         viewBinding.etPrompt.apply {
@@ -153,9 +170,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         if (context != null && activity != null) showProgress()
         val requestModel = RequestModel(
             prompt = promptMessage,
-            size = selectedSize,
-            model = "dall-e-3",
-            art = artStyle
+            style = artStyle,
+            size = selectedSize
         )
         if (activity != null) {
             navigateGenerateFragment(requestModel)

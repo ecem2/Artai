@@ -12,6 +12,6 @@ class ArtaiApplication: Application() {
     }
 
     companion object {
-        var hasSubscription : Boolean = false
+        var hasSubscription : Boolean = true
     }
 }

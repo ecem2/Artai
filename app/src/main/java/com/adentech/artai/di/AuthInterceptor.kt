@@ -11,11 +11,12 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
+
         val newRequestBuilder = chain.request().newBuilder()
 
         val token = preferences.getToken()
         if (token.isNotEmpty()) {
-            newRequestBuilder.addHeader(ApiParameters.AUTH_HEADER, ApiParameters.TOKEN_TYPE + token)
+            newRequestBuilder.addHeader(ApiParameters.AUTH_HEADER, ApiParameters.TOKEN_TYPE) // TOKEN A BAK
         }
 
         return chain.proceed(newRequestBuilder.build())

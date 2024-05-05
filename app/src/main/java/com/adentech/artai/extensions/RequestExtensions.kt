@@ -1,6 +1,11 @@
 package com.adentech.artai.extensions
 
+import android.util.Log
 import com.adentech.artai.core.common.Constants.BASE_URL_GENERATION
+import com.adentech.artai.data.model.output.Input
+import com.adentech.artai.data.model.output.Metrics
+import com.adentech.artai.data.model.output.OutputResponse
+import com.adentech.artai.data.model.output.Urls
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -12,14 +17,15 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
+
 fun OkHttpClient.makePostRequest(
     requestBody: RequestBody,
     callback: (String?, String?) -> Unit
 ) {
 
     var jsonArray: JSONArray
-    var result: String? = null
-    val apiKey = "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"
+    var result: String?
+    val apiKey = "r8_RCq5xgkmYiZZrNSPCrAPhXH84lIM06l0aQEX7"
     val request = Request.Builder()
         .url(BASE_URL_GENERATION)
         .addHeader("Content-Type", "application/json")
@@ -31,6 +37,7 @@ fun OkHttpClient.makePostRequest(
         override fun onFailure(call: Call, e: IOException) {
             return callback(null, e.message)
         }
+
         override fun onResponse(call: Call, response: Response) {
             val body = response.body?.string()
             val jsonObject: JSONObject
@@ -38,15 +45,22 @@ fun OkHttpClient.makePostRequest(
             return try {
                 if (body != null) {
                     jsonObject = JSONObject(body)
-                    jsonArray = jsonObject.getJSONArray("data")
+                    Log.e("ecemm", "jsonObject: $jsonObject")
+                    if (jsonObject.has("data")) {
+                        jsonArray = jsonObject.getJSONArray("data")
                     result = jsonArray.getJSONObject(0).getString("url").trim()
                     callback(result, null)
+                    } else {
+                        callback(null, "No value for data")
+                    }
                 } else {
                     callback(null, "Response body is null")
                 }
             } catch (e: JSONException) {
+                Log.e("ecemm", "excc: ${e.localizedMessage}")
                 callback(null, "${e.message}")
             } catch (e: Exception) {
+                Log.e("ecemm", "excc22: ${e.localizedMessage}")
                 callback(null, "${e.message}")
             }
         }

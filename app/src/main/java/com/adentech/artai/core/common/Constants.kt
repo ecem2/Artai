@@ -2,9 +2,8 @@ package com.adentech.artai.core.common
 
 object Constants {
 
-    const val BASE_URL_GENERATION = "https://api.openai.com/v1/images/generations"
-    const val BASE_URL_EDIT = "https://api.openai.com/v1/images/edits"
-
+    const val BASE_URL_GENERATION = "https://api.replicate.com/"
+    const val VERSION_KEY = "ac732df83cea7fff18b8472768c88ad041fa750ff7682a21affe81863cbe77e4"
 
     const val YEARLY_PREMIUM = ""
     const val MONTHLY_PREMIUM = ""

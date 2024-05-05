@@ -1,27 +1,66 @@
 package com.adentech.artai.ui.home
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.adentech.artai.R
+import com.adentech.artai.core.common.Resource
+import com.adentech.artai.core.common.Status
 import com.adentech.artai.core.viewmodel.BaseViewModel
 import com.adentech.artai.data.model.ArtStyleModel
 import com.adentech.artai.data.model.GenerateModel
 import com.adentech.artai.data.model.SizeModel
+import com.adentech.artai.data.model.imagegeneration.GenerationRequest
+import com.adentech.artai.data.model.output.OutputResponse
 import com.adentech.artai.data.preferences.Preferences
+import com.adentech.artai.data.repository.ImageRepository
+import com.adentech.artai.data.repository.ImageRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    val preferences: Preferences
+    val preferences: Preferences,
+    val repository: ImageRepositoryImpl
 ) : BaseViewModel() {
 
-    val itemList: ArrayList<SizeModel> = ArrayList()
+
+    private val _urlForGeneration: MutableLiveData<Resource<OutputResponse>> = MutableLiveData()
+    val urlForGeneration: LiveData<Resource<OutputResponse>> get() = _urlForGeneration
+
+    private val _resultImage: MutableLiveData<Resource<String>> = MutableLiveData()
+    val resultImage: LiveData<Resource<String>> get() = _resultImage
+
+
+
+
+    fun getUrlForGeneration(prompt: String, style: String, size: String) {
+        _urlForGeneration.postValue(Resource.loading(null))
+        viewModelScope.launch {
+            val request = repository.getUrlForGeneration(prompt, style, size)
+            Log.d("fatosss", "API Response: ${request.data}")
+            Log.d("fatosss", "URL for generation request: $request")
+            _urlForGeneration.postValue(request)
+        }
+    }
+
+    fun getResultImage(url: String) {
+        _resultImage.postValue(Resource.loading(null))
+        viewModelScope.launch {
+            val response = repository.getResultImage(url)
+            _resultImage.postValue(response)
+        }
+    }
+
+
+
+
     val artList: ArrayList<ArtStyleModel> = ArrayList()
-    val imageList: ArrayList<GenerateModel> = ArrayList()
 
     init {
-       // getSizeList()
         getArtList()
-       // getAnimationList()
     }
 
     private fun getArtList() {

@@ -83,7 +83,7 @@ class BillingClientWrapper(
                 } else {
                     Log.d(TAG, "queryPurchases: purchaseList222 === $purchaseList")
                     _purchases.value = emptyList()
-                    ArtaiApplication.hasSubscription = true // false olacak
+                    ArtaiApplication.hasSubscription = false // false olacak
                 }
             } else {
                 Log.e(TAG, billingResult.debugMessage)
@@ -173,7 +173,7 @@ class BillingClientWrapper(
             // Post new purchase List to _purchases
             _purchases.value = purchases
             _isNewPurchaseDone.value = true
-            ArtaiApplication.hasSubscription = true
+            ArtaiApplication.hasSubscription = true //false
             // Then, handle the purchases
             for (purchase in purchases) {
                 acknowledgePurchases(purchase)
