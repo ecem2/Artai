@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
@@ -91,6 +93,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
     private val executor: ExecutorService = Executors.newFixedThreadPool(1)
     private lateinit var dialogBinding: DialogLoadingProgressBinding
     private lateinit var mDialog: Dialog
+    private val updateDownloadProgress = 1
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val requiredPermissions: Array<String> = (arrayOf(
@@ -101,7 +104,15 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
     private var isRequiredPermissionsGranted = false
     val itemList: ArrayList<SizeModel> = ArrayList()
     private lateinit var selectedSize: String
-
+    private val mainHandler: Handler = Handler(Looper.getMainLooper()) { msg ->
+        if (msg.what == updateDownloadProgress) {
+            val downloadProgress: Int = msg.arg1
+            requireActivity().runOnUiThread {
+                updateProgress(downloadProgress)
+            }
+        }
+        true
+    }
 
     override fun viewModelClass() = HomeViewModel::class.java
 
@@ -122,15 +133,17 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             observe(viewModel.urlForGeneration, ::getUrlForGeneration)
 
         }
-        requestPermissionLauncher.launch(requiredPermissions.toString())
+       // requestPermissionLauncher.launch(requiredPermissions[0])
 
 
         viewBinding.apply {
             buttonShare.setOnClickListener {
                 if (resultImage != null && resultImage != "") {
+                    Log.d("ecemmm", "$resultImage")
                     viewModel.viewModelScope.launch {
                         val file = viewModel.downloadImage(resultImage!!, requireContext())
                         if (file != null) {
+                            Log.d("ecemmm", "$file")
                             shareFile(file)
                         }
                     }
@@ -159,7 +172,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                 Log.d("ecemmm","Izin verilmedi......")
             } else {
                 if (resultImage != null && resultImage != "") {
-                    saveImageToGallery(resultImage!!)
+                    saveImageToGallery(viewBinding.ivGeneratedImage.toString())
                 }
 //                if (imageList.isNotEmpty()) {
 //                    Log.d("ecemmm", "Download işlemi başlatılıyor. İndirilecek resim URL: ${imageList[0].image}")
@@ -171,28 +184,49 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
         getSizeList(viewBinding.bgImage)
 
     }
+    @SuppressLint("SetTextI18n")
+    private fun updateProgress(progress: Int) {
+        if (mDialog.isShowing) {
+            requireActivity().runOnUiThread {
+                dialogBinding.tvProgress.text = "% $progress"
+                if (progress == 100) {
+                    dialogBinding.buttonDone.visibility = View.VISIBLE
+                    dialogBinding.tvLoading.text = getString(R.string.successfully_saved)
+                }
+            }
+        }
+    }
 
     private fun shareFile(file: File) {
-        val uri = FileProvider.getUriForFile(
-            requireContext().applicationContext,
-            "com.adentech.artai" + ".provider",
-            file
-        )
-
-
-        val shareBody = getString(R.string.room_ai_share)
-        val sharingIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, shareBody)
-            putExtra(Intent.EXTRA_STREAM, uri)
-            type = "image/jpg"
-        }
-        startActivity(
-            Intent.createChooser(
-                sharingIntent,
-                getString(R.string.share_using)
+        try {
+            val uri = FileProvider.getUriForFile(
+                requireContext(),
+                "com.adentech.artai" + ".provider",
+                file
             )
-        )
+
+            if (uri != null) {
+                val shareBody = getString(R.string.room_ai_share)
+                val sharingIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, shareBody)
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                    type = "image/jpeg"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                startActivity(
+                    Intent.createChooser(
+                        sharingIntent,
+                        getString(R.string.share_using)
+                    )
+                )
+            } else {
+                Log.d("ecemmm", "Failed to get URI for file")
+            }
+        } catch (e: Exception) {
+            Log.e("Share Error", "Error sharing file: ${e.message}")
+        }
     }
     private fun getUrlForGeneration(resource: Resource<OutputResponse>) {
 
@@ -226,7 +260,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                     .load(result)
                     .into(viewBinding.ivGeneratedImage)
                 Log.d("fatosss", "Result: $result")
-                saveImageToGallery(result)
+                //saveImageToGallery(result)
 
 
             }

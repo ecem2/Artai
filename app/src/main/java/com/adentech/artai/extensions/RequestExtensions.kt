@@ -25,7 +25,7 @@ fun OkHttpClient.makePostRequest(
 
     var jsonArray: JSONArray
     var result: String?
-    val apiKey = "r8_Brwd9NZRi41vATSbiFCe2mQSS9IuD4y3UyJ6W"
+    val apiKey = "r8_SF4aQ7qbRWPjE8eB2bNftBCEG9330AG1ZWxdd"
     val request = Request.Builder()
         .url(BASE_URL_GENERATION)
         .addHeader("Content-Type", "application/json")
