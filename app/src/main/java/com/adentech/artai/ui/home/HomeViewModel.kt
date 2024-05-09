@@ -1,5 +1,6 @@
 package com.adentech.artai.ui.home
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +18,14 @@ import com.adentech.artai.data.preferences.Preferences
 import com.adentech.artai.data.repository.ImageRepository
 import com.adentech.artai.data.repository.ImageRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.BufferedInputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -150,17 +158,34 @@ class HomeViewModel @Inject constructor(
             )
         )
     }
+    suspend fun downloadImage(imageUrl: String, context: Context): File? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val urlConnection: HttpURLConnection =
+                    URL(imageUrl).openConnection() as HttpURLConnection
+                urlConnection.requestMethod = "GET"
+                urlConnection.connect()
 
-//    private fun getSizeList() {
-//        itemList.add(SizeModel(icon = "", size = "1024x1024", isSelected = true))
-//        itemList.add(SizeModel(icon = "", size = "1024x1792", isSelected = true))
-//        itemList.add(SizeModel(icon = "", size = "1792x1024", isSelected = true))
-//    }
+                val inputStream = BufferedInputStream(urlConnection.inputStream)
+                val outputFile = File(context.cacheDir, "shared_image.png")
+                val outputStream = FileOutputStream(outputFile)
 
-//    private fun getAnimationList() {
-//        imageList.add(GenerateModel(image = "", animation = R.raw.loading))
-//        imageList.add(GenerateModel(image = "", animation = R.raw.loading))
-//        imageList.add(GenerateModel(image = "", animation = R.raw.loading))
-//        imageList.add(GenerateModel(image = "", animation = R.raw.loading))
-//    }
+                val data = ByteArray(1024)
+                var count: Int
+                while (inputStream.read(data).also { count = it } != -1) {
+                    outputStream.write(data, 0, count)
+                }
+
+                outputStream.flush()
+                outputStream.close()
+                inputStream.close()
+
+                outputFile
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+    }
+
 }

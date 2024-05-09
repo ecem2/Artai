@@ -19,6 +19,13 @@
     <string name="continue_selected">Continue Selected</string>
     <string name="generating_variations">Generating Variations</string>
 
+
+    <string name="done">Done</string>
+    <string name="please_wait">Please Wait</string>
+    <string name="room_ai_share">I used Room AI to create this photo and I wanted to share it with you. 📸✨\nhttp://play.google.com/store/apps/details?id=com.adentech.roomai</string>
+    <string name="share_using">Share using:</string>
+
+
     <string name="no_photos_uploaded_yet">No photos uploaded yet</string>
     <string name="choose_from">Choose from:</string>
     <string name="camera">Camera</string>

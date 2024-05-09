@@ -57,7 +57,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         val graph = inflater.inflate(R.navigation.main_nav_graph)
 
         if (viewModel.preferences.getFirstLaunch()) {
-            graph.setStartDestination(R.id.onboard_graph)
+            graph.setStartDestination(R.id.home_nav_graph)
+
+            //graph.setStartDestination(R.id.onboard_graph)
+           // graph.setStartDestination(R.id.fragment_splash)
         } else {
             graph.setStartDestination(R.id.home_nav_graph)
             initGraph()
