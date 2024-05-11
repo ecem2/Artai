@@ -172,7 +172,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                 Log.d("ecemmm","Izin verilmedi......")
             } else {
                 if (resultImage != null && resultImage != "") {
-                    saveImageToGallery(viewBinding.ivGeneratedImage.toString())
+                    saveImageToGallery(resultImage!!)
                 }
 //                if (imageList.isNotEmpty()) {
 //                    Log.d("ecemmm", "Download işlemi başlatılıyor. İndirilecek resim URL: ${imageList[0].image}")
@@ -260,7 +260,8 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                     .load(result)
                     .into(viewBinding.ivGeneratedImage)
                 Log.d("fatosss", "Result: $result")
-                //saveImageToGallery(result)
+                resultImage = result
+
 
 
             }
@@ -296,9 +297,9 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             isStorageImagePermitted = true
-            if (imageList.isNotEmpty()) {
-                downloadImage(imageList[0].image)
-            }
+                if (resultImage != null && resultImage != "") {
+                    saveImageToGallery(resultImage!!)
+                }
         } else {
             requestPermissionLauncher.launch(requiredPermissions[0])
         }
@@ -309,8 +310,8 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             if (isGranted) {
                 isStorageImagePermitted = true
                 Log.d("ecemmm", "İzinler verildi")
-                if (imageList.isNotEmpty()) {
-                    downloadImage(imageList[0].image)
+                if (resultImage != null && resultImage != "") {
+                    saveImageToGallery(resultImage!!)
                 }
             } else {
                 isStorageImagePermitted = false
