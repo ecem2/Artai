@@ -25,12 +25,8 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.navArgs
-import androidx.work.Data
-import androidx.work.WorkManager
 import com.adentech.artai.R
 import com.adentech.artai.core.common.ArgumentKey.REQUEST_MODEL
 import com.adentech.artai.core.common.Resource
@@ -43,13 +39,11 @@ import com.adentech.artai.data.model.output.OutputResponse
 import com.adentech.artai.data.remote.ApiService
 import com.adentech.artai.databinding.DialogLoadingProgressBinding
 import com.adentech.artai.databinding.FragmentGenerateBinding
-import com.adentech.artai.extensions.makePostRequest
 import com.adentech.artai.extensions.observe
 import com.adentech.artai.extensions.parcelable
 import com.adentech.artai.extensions.popBack
 import com.adentech.artai.ui.home.HomeViewModel
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestListener
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,6 +87,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
     private val executor: ExecutorService = Executors.newFixedThreadPool(1)
     private lateinit var dialogBinding: DialogLoadingProgressBinding
     private lateinit var mDialog: Dialog
+    var file: File? = null
     private val updateDownloadProgress = 1
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -133,29 +128,29 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             observe(viewModel.urlForGeneration, ::getUrlForGeneration)
 
         }
-       // requestPermissionLauncher.launch(requiredPermissions[0])
 
 
+        viewBinding.buttonShare.isEnabled = true
+         viewBinding.buttonShare.isClickable = true
         viewBinding.apply {
             buttonShare.setOnClickListener {
-                if (resultImage != null && resultImage != "") {
-                    Log.d("ecemmm", "$resultImage")
-                    viewModel.viewModelScope.launch {
-                        val file = viewModel.downloadImage(resultImage!!, requireContext())
-                        if (file != null) {
-                            Log.d("ecemmm", "$file")
-                            shareFile(file)
-                        }
+                if (!resultImage.isNullOrBlank()) {
+                    lifecycleScope.launch {
+                        file = viewModel.downloadImage(resultImage!!, requireContext())
+                        file?.let { it1 -> shareFile(it1) }
+                        Log.d("ecemmm", "$resultImage")
+                        Log.d("ecemmm", "$file")
                     }
                 }
             }
         }
 
+
         viewBinding.apply {
             buttonEdit.isEnabled = false
             buttonEdit.isClickable = false
-            buttonShare.isEnabled = false
-            buttonShare.isClickable = false
+            //buttonShare.isEnabled = false
+           // buttonShare.isClickable = false
         }
         setupLottie()
 
@@ -174,11 +169,6 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                 if (resultImage != null && resultImage != "") {
                     saveImageToGallery(resultImage!!)
                 }
-//                if (imageList.isNotEmpty()) {
-//                    Log.d("ecemmm", "Download işlemi başlatılıyor. İndirilecek resim URL: ${imageList[0].image}")
-//                    downloadImage(imageList[0].image)
-//                    Log.d("ecemmm","ImageList: ${imageList[0].image}")
-//                }
             }
         }
         getSizeList(viewBinding.bgImage)
@@ -198,34 +188,33 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
     }
 
     private fun shareFile(file: File) {
-        try {
-            val uri = FileProvider.getUriForFile(
-                requireContext(),
-                "com.adentech.artai" + ".provider",
-                file
-            )
+        val uri = FileProvider.getUriForFile(
+            requireContext().applicationContext,
+            "com.adentech.artai" + ".provider",
+            file
+        )
+        Log.d("ecemmm", "$uri")
 
-            if (uri != null) {
-                val shareBody = getString(R.string.room_ai_share)
-                val sharingIntent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, shareBody)
-                    putExtra(Intent.EXTRA_STREAM, uri)
-                    type = "image/jpeg"
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }
-                startActivity(
-                    Intent.createChooser(
-                        sharingIntent,
-                        getString(R.string.share_using)
-                    )
-                )
-            } else {
-                Log.d("ecemmm", "Failed to get URI for file")
-            }
-        } catch (e: Exception) {
-            Log.e("Share Error", "Error sharing file: ${e.message}")
+
+        val shareBody = getString(R.string.room_ai_share)
+        val sharingIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareBody)
+            putExtra(Intent.EXTRA_STREAM, uri)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            type = "image/*"
+        }
+        val chooserIntent = Intent.createChooser(
+            sharingIntent,
+            getString(R.string.share_using)
+        )
+        if (sharingIntent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(chooserIntent)
+            Log.d("ecemmm", "Dosya secenekleri acildiiii")
+
+        } else {
+            Log.d("ecemmm", "Dosya secenekleri acilmadiii")
         }
     }
     private fun getUrlForGeneration(resource: Resource<OutputResponse>) {
@@ -318,176 +307,6 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                 Log.d("ecemmm", "İzinler verilmedi")
             }
         }
-
-    private fun writeFileToStorage(body: ResponseBody): Boolean {
-        val nameOfFile = "IMAGE"
-        var location: File? = null
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            try {
-                location = File(MediaStore.Downloads.EXTERNAL_CONTENT_URI.toString(), nameOfFile)
-                if (location.exists()) {
-                    location.delete()
-                }
-
-                val values: ContentValues = ContentValues()
-                values.put(MediaStore.Images.Media.TITLE, nameOfFile)
-                values.put(MediaStore.Images.Media.DISPLAY_NAME, nameOfFile)
-                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                var uri: Uri? = null
-                uri = requireContext().contentResolver.insert(
-                    MediaStore.Downloads.EXTERNAL_CONTENT_URI,
-                    values
-                )
-                val descriptor: ParcelFileDescriptor? =
-                    uri?.let { requireContext().contentResolver.openFileDescriptor(it, "w") }
-                val fileDescriptor: FileDescriptor? = descriptor?.fileDescriptor
-                val inputStream: InputStream = body.byteStream()
-                val fileReader: ByteArray = byteArrayOf(4096.toByte())
-                val fileSize: Long = body.contentLength()
-                var fileSizeDownloaded = 0
-                val outputStream: OutputStream = FileOutputStream(fileDescriptor)
-                while (true) {
-                    val read: Int = inputStream.read(fileReader)
-                    if (read == -1) {
-                        break
-                    }
-                    outputStream.write(fileReader, 0, read)
-                    fileSizeDownloaded += read
-                    Log.d("salimmm", "file download size: $fileSizeDownloaded from $fileSize")
-                }
-
-                outputStream.flush()
-                if (inputStream != null) {
-                    inputStream.close()
-                }
-
-                if (outputStream != null) {
-                    outputStream.close()
-                }
-
-                val readLocation: File = File(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                        .toString() + "/" + nameOfFile
-                )
-                Log.d("salimmm", "readLocation $readLocation")
-                viewBinding.ivGeneratedImage.setImageDrawable(Drawable.createFromPath(readLocation.toString()))
-            } catch (e: Exception) {
-                Log.e("salimmm", "WRITE EXC ${e.localizedMessage}")
-            }
-            return true
-        } else {
-            return false
-        }
-    }
-
-
-    private fun launchSaveProgress() {
-        writeToDisk(requireContext(), generatedImage?.image!!, "IMAGES")
-    }
-
-    @SuppressLint("Range")
-    fun writeToDisk(context: Context, imageUrl: String, downloadSubfolder: String) {
-        val imageUri = Uri.parse(imageUrl)
-        val fileName = imageUri.lastPathSegment
-        val downloadSubPath = downloadSubfolder + fileName
-        val downloadManager =
-            context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val request = DownloadManager.Request(imageUri)
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        request.setDescription(imageUrl)
-        request.allowScanningByMediaScanner()
-         request.setDestinationUri(getDownloadDestination(downloadSubPath))
-        val downloadId: Long = downloadManager.enqueue(request)
-
-        // Run a task in a background thread to check download progress
-        executor.execute {
-            var progress = 0
-            var isDownloadFinished = false
-            requireActivity().runOnUiThread {
-                if (activity != null) {
-                    showLoadingDialog()
-                }
-            }
-            val galleryUri = try {
-                MediaStore.Images.Media.insertImage(
-                    context.contentResolver,
-                    imageUri.toString(),
-                    fileName,
-                    ""
-                )
-            } catch (e: FileNotFoundException) {
-                null
-            }
-
-            if (galleryUri != null) {
-                Log.d("ecemmm","Image saved to gallery")
-            } else {
-                Log.d("ecemmm","Failed to save image to gallery")
-            }
-            while (!isDownloadFinished) {
-                val cursor =
-                    downloadManager.query(DownloadManager.Query().setFilterById(downloadId))
-                if (cursor.moveToFirst()) {
-                    val downloadStatus =
-                        cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
-                    when (downloadStatus) {
-                        DownloadManager.STATUS_RUNNING -> {
-                            val totalBytes =
-                                cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-                            if (totalBytes > 0) {
-                                val downloadedBytes =
-                                    cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
-                                progress = (downloadedBytes * 100 / totalBytes).toInt()
-                            }
-                        }
-
-                        DownloadManager.STATUS_SUCCESSFUL -> {
-                            progress = 100
-                            isDownloadFinished = true
-                        }
-
-                        DownloadManager.STATUS_PAUSED, DownloadManager.STATUS_PENDING -> {
-
-                        }
-
-                        DownloadManager.STATUS_FAILED -> {
-                            isDownloadFinished = true
-                        }
-                    }
-                    val message = Message.obtain()
-                    message.arg1 = progress
-
-                }
-            }
-        }
-    }
-    private fun getDownloadDestination(downloadSubPath: String): Uri {
-        val picturesFolder =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val destinationFile = File(picturesFolder, downloadSubPath)
-        destinationFile.mkdirs()
-        return Uri.fromFile(destinationFile)
-    }
-    private fun showLoadingDialog() {
-        val dialogBuilder = Dialog(requireContext(), R.style.CustomDialog)
-        dialogBinding = DialogLoadingProgressBinding.inflate(layoutInflater)
-        dialogBuilder.setContentView(dialogBinding.root)
-        dialogBuilder.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT
-        )
-        dialogBuilder.setCancelable(false)
-
-        dialogBinding.apply {
-            tvProgress.text = "% 0"
-            buttonDone.setOnClickListener {
-                dialogBuilder.cancel()
-            }
-        }
-        mDialog = dialogBuilder
-        dialogBuilder.show()
-    }
     private fun setupLottie() {
         viewBinding.apply {
             //buttonDownload.visibility = View.GONE
@@ -496,50 +315,9 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             animationView.playAnimation()
         }
     }
-
-    private fun downloadImage(fileUrl: String) {
-        if (fileUrl.isNotEmpty()) {
-            var newUrl = ""
-            newUrl = if (fileUrl.last() != '/') {
-                "$fileUrl/"
-            } else {
-                fileUrl
-            }
-            Log.d("salimmmm", "fileUrl -> $newUrl")
-            val builder: Retrofit.Builder = Retrofit.Builder().baseUrl(newUrl)
-            val retrofit: Retrofit = builder.build()
-            val downloadService: ApiService = retrofit.create(ApiService::class.java)
-            val call: Call<ResponseBody> = downloadService.downloadFile(newUrl)
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: Response<ResponseBody>
-                ) {
-                    if (response.isSuccessful) {
-                        try {
-                            val writeToDisk: Boolean =
-                                response.body()?.let { writeFileToStorage(it) } == true
-                            Log.d("salimmmm", "FILE DOWNLOADED OR NOT STATUS -> $writeToDisk")
-                        } catch (e: Exception) {
-                            Log.d("salimmmm", "onResponse Exception -> ${e.localizedMessage}")
-                        }
-                    } else {
-                        Log.d("salimmm", "Something went wrong")
-                    }
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.d("salimmmm", "FILE DOWNLOAD onFailure -> $t")
-                }
-            })
-        }
-    }
     private fun getPermissionState(isGranted: Boolean) {
         isRequiredPermissionsGranted = isGranted
     }
-
-
-
 
     private fun getSizeList(constraintLayout: ConstraintLayout) {
         itemList.clear()
@@ -574,20 +352,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
 //
 //        }
     // }
-//    private fun setupArtStyles() {
-//        generateAdapter.submitList(viewModel.imageList)
-//        viewBinding.rvArts.apply {
-//            adapter = generateAdapter
-//            layoutManager =
-//                object : LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false) {
-//                    override fun checkLayoutParams(lp: RecyclerView.LayoutParams): Boolean {
-//                        lp.width = width / 3
-//                        return true
-//                    }
-//                }
-//            setHasFixedSize(true)
-//        }
-//    }
+
 
     private fun onArtItemClicked(artStyleModel: GenerateModel, i: Int) {
         Log.d("salimmm", "artStyleModel $artStyleModel")

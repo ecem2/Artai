@@ -7,6 +7,6 @@ object ApiConstants {
 }
 
 object ApiParameters {
-    const val TOKEN_TYPE = "Bearer r8_eZrcgBiRUGGbocjkNvuD2RKnAhqscmy0etHYg"
+    const val TOKEN_TYPE = "Bearer r8_2KVIQB6sx3KFj2vJ195rPQ4w1abf2CG0ynw0R"
     const val AUTH_HEADER = "Authorization"
 }
