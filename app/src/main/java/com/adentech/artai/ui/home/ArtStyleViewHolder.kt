@@ -28,5 +28,6 @@ class ArtStyleViewHolder(
                 llSelectedBg.visibility = View.GONE
             }
         }
+
     }
 }

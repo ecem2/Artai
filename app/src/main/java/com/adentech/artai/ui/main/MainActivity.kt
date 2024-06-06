@@ -18,6 +18,9 @@ import com.adentech.artai.core.activities.BaseActivity
 import com.adentech.artai.core.common.ArgumentKey
 import com.adentech.artai.databinding.ActivityMainBinding
 import com.adentech.artai.extensions.findNavHostFragment
+import com.adentech.artai.ui.generate.GenerateFragment
+import com.adentech.artai.ui.home.HomeFragment
+import com.adentech.artai.ui.onboard.OnboardFragment
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,96 +44,68 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     override fun viewModelClass() = MainViewModel::class.java
 
     override fun onInitDataBinding() {
-       // isSplashScreenActive = true
-        setupNavigation()
+        isSplashScreenActive = true
+        initGraph()
+
+//        if (viewModel.preferences.getFirstLaunch()) {
+//
+//        }else{
+//            navigateHome()
+//        }
         //isSplashScreenActive = false
     }
 
-    private fun setupNavigation() {
-
-        // 1. Adimda bos bir splashFragment yarat. icinde .getFirstLaunch() i kontrol et
-        // 2. ilk acilista onboard_nav_graph
-        // 3. onboard gecilmisse bottomnavigationli nav graph
-        val navHostFragment = findNavHostFragment(R.id.nav_host_container)
-        navController = navHostFragment.navController
-        val inflater = navHostFragment.navController.navInflater
-        val graph = inflater.inflate(R.navigation.main_nav_graph)
-
-        if (viewModel.preferences.getFirstLaunch()) {
-            graph.setStartDestination(R.id.home_nav_graph)
-
-            //graph.setStartDestination(R.id.onboard_graph)
-           // graph.setStartDestination(R.id.fragment_splash)
-        } else {
-            graph.setStartDestination(R.id.home_nav_graph)
-            initGraph()
-            viewBinding.bottomNav.setOnApplyWindowInsetsListener(null)
-        }
-
-        navController.setGraph(graph, intent.extras)
-
-        viewBinding.apply {
-            bottomNav.setupWithNavController(navController)
-            NavigationUI.setupWithNavController(bottomNav, navController)
-        }
-    }
+//    private fun setupNavigation() {
+////            if (viewModel.preferences.getFirstLaunch()) {
+////                isSplashScreenActive = true
+////                onboardScreen()
+////            } else {
+////                homeScreen()
+////                finish()
+////            }
+//        // 1. Adimda bos bir splashFragment yarat. icinde .getFirstLaunch() i kontrol et
+//        // 2. ilk acilista onboard_nav_graph
+//        // 3. onboard gecilmisse bottomnavigationli nav graph
+//        val navHostFragment = findNavHostFragment(R.id.nav_host_container)
+//        navController = navHostFragment.navController
+//        val inflater = navHostFragment.navController.navInflater
+//        val graph = inflater.inflate(R.navigation.home_nav_graph)
+//
+//        if (viewModel.preferences.getFirstLaunch()) {
+//            graph.setStartDestination(R.id.onboard_nav_graph)
+//
+//            //graph.setStartDestination(R.id.onboard_graph)
+//            graph.setStartDestination(R.id.splashFragment)
+//        } else {
+//            graph.setStartDestination(R.id.home_nav_graph)
+//           // initGraph()
+//        viewBinding.bottomNav.setOnApplyWindowInsetsListener(null)
+//        }
+//
+//        navController.setGraph(graph, intent.extras)
+//
+//        viewBinding.apply {
+//            bottomNav.setupWithNavController(navController)
+//            NavigationUI.setupWithNavController(bottomNav, navController)
+//        }
+//        isSplashScreenActive = false
+//
+//    }
 
     private fun initGraph() {
-        viewBinding.bottomNav.setupWithNavController(navController)
-        viewBinding.bottomNav.setOnItemReselectedListener {
-            when (it.itemId) {
-                R.id.home_nav_graph -> {
-                    returnHome()
-                }
+        isSplashScreenActive = false
+        val navHostFragment = findNavHostFragment(R.id.nav_host_container)
+        navController = navHostFragment.navController
 
-            }
-        }
+        val inflater = navController.navInflater
+        val graph = inflater.inflate(R.navigation.home_nav_graph)
 
-        viewBinding.bottomNav.setOnItemSelectedListener { item ->
-            NavigationUI.onNavDestinationSelected(item, navController)
-        }
+        val navController = navHostFragment.navController
+        navController.setGraph(graph, intent.extras)
     }
 
     private fun popBack(@IdRes destinationId: Int, inclusive: Boolean = false) {
         navController.popBackStack(destinationId, inclusive)
-    }
-
-    private fun returnHome() {
-        popBack(R.id.homeFragment)
-    }
-
-
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        when (intent?.getStringExtra(ArgumentKey.MAIN_SCREEN)) {
-            MainScreen.HOME -> {
-                viewBinding.bottomNav.selectedItemId = R.id.home_nav_graph
-                popBack(R.id.homeFragment)
-            }
-
-        }
-    }
-
-//    override fun onResume() {
-//        super.onResume()
-//        // Before setting full screen flags, we must wait a bit to let UI settle; otherwise, we may
-//        // be trying to set app to immersive mode before it's ready and the flags do not stick
-//        viewBinding.navHostContainer.postDelayed({
-//            hideSystemUI()
-//        }, IMMERSIVE_FLAG_TIMEOUT)
-//    }
-
-    /** When key down event is triggered, relay it via local broadcast so fragments can handle it */
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return when (keyCode) {
-            KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                val intent = Intent(KEY_EVENT_ACTION).apply { putExtra(KEY_EVENT_EXTRA, keyCode) }
-                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
-                true
-            }
-            else -> super.onKeyDown(keyCode, event)
-        }
     }
 
     override fun onBackPressed() {
@@ -142,9 +117,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     }
 
     companion object {
-        const val KEY_EVENT_ACTION = "key_event_action"
-        const val KEY_EVENT_EXTRA = "key_event_extra"
-        private const val IMMERSIVE_FLAG_TIMEOUT = 500L
         fun newIntent(context: Context, returnScreen: String? = null) =
             Intent(context, MainActivity::class.java).apply {
                 putExtra(ArgumentKey.MAIN_SCREEN, returnScreen)

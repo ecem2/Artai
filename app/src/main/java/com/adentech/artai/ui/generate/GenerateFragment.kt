@@ -3,22 +3,16 @@ package com.adentech.artai.ui.generate
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.DownloadManager
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
-import android.os.ParcelFileDescriptor
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -36,55 +30,23 @@ import com.adentech.artai.data.model.GenerateModel
 import com.adentech.artai.data.model.RequestModel
 import com.adentech.artai.data.model.SizeModel
 import com.adentech.artai.data.model.output.OutputResponse
-import com.adentech.artai.data.remote.ApiService
 import com.adentech.artai.databinding.DialogLoadingProgressBinding
 import com.adentech.artai.databinding.FragmentGenerateBinding
+import com.adentech.artai.extensions.navigate
 import com.adentech.artai.extensions.observe
 import com.adentech.artai.extensions.parcelable
 import com.adentech.artai.extensions.popBack
 import com.adentech.artai.ui.home.HomeViewModel
 import com.bumptech.glide.Glide
-import com.google.common.reflect.TypeToken
-import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 import java.io.File
-import java.io.FileDescriptor
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.UUID
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() {
 
-    private var generatedImage: GenerateModel? = null
-    private var outputResponse: OutputResponse? = null
-    private var client: OkHttpClient = OkHttpClient()
-    private val imageList: ArrayList<GenerateModel> = ArrayList()
-    private var output: String? = null
-    private var isImageGenerated: Boolean = false
-    private var imagesList: ArrayList<String> = ArrayList()
+
     private var resultImage: String? = null
-    private val executor: ExecutorService = Executors.newFixedThreadPool(1)
     private lateinit var dialogBinding: DialogLoadingProgressBinding
     private lateinit var mDialog: Dialog
     var file: File? = null
@@ -92,8 +54,8 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val requiredPermissions: Array<String> = (arrayOf(
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                       ,android.Manifest.permission.READ_EXTERNAL_STORAGE
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
     ))
     private var isStorageImagePermitted = false
     private var isRequiredPermissionsGranted = false
@@ -116,14 +78,8 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onInitDataBinding() {
         val translation = arguments?.parcelable<RequestModel>(REQUEST_MODEL)
-        Log.d(
-            "fatosss",
-            "Prompt: ${translation?.prompt}, Style: ${translation?.style}, Size: ${translation?.size}"
-        )
-
         if (translation != null) {
-            Log.e("fatosss", "translation ${translation}")
-
+            adjustAspectRatio(translation.size)
             viewModel.getUrlForGeneration(translation.prompt, translation.style, translation.size)
             observe(viewModel.urlForGeneration, ::getUrlForGeneration)
 
@@ -131,26 +87,19 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
 
 
         viewBinding.buttonShare.isEnabled = true
-         viewBinding.buttonShare.isClickable = true
+        viewBinding.buttonShare.isClickable = true
         viewBinding.apply {
             buttonShare.setOnClickListener {
                 if (!resultImage.isNullOrBlank()) {
                     lifecycleScope.launch {
                         file = viewModel.downloadImage(resultImage!!, requireContext())
                         file?.let { it1 -> shareFile(it1) }
-                        Log.d("ecemmm", "$resultImage")
-                        Log.d("ecemmm", "$file")
                     }
                 }
             }
-        }
-
-
-        viewBinding.apply {
-            buttonEdit.isEnabled = false
-            buttonEdit.isClickable = false
-            //buttonShare.isEnabled = false
-           // buttonShare.isClickable = false
+            btnRefresh.setOnClickListener {
+                navigate(GenerateFragmentDirections.actionGenerateFragmentToHomeFragment(0, null))
+            }
         }
         setupLottie()
 
@@ -161,10 +110,8 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
 
         observe(isPermissionsGranted, ::getPermissionState)
         viewBinding.buttonDownload.setOnClickListener {
-            Log.d("ecemmm","Tiklandiiii......")
             if (!isStorageImagePermitted) {
                 requiredPermissionStorageImages()
-                Log.d("ecemmm","Izin verilmedi......")
             } else {
                 if (resultImage != null && resultImage != "") {
                     saveImageToGallery(resultImage!!)
@@ -174,6 +121,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
         getSizeList(viewBinding.bgImage)
 
     }
+
     @SuppressLint("SetTextI18n")
     private fun updateProgress(progress: Int) {
         if (mDialog.isShowing) {
@@ -193,8 +141,6 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             "com.adentech.artai" + ".provider",
             file
         )
-        Log.d("ecemmm", "$uri")
-
 
         val shareBody = getString(R.string.room_ai_share)
         val sharingIntent = Intent().apply {
@@ -211,12 +157,9 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
         )
         if (sharingIntent.resolveActivity(requireContext().packageManager) != null) {
             startActivity(chooserIntent)
-            Log.d("ecemmm", "Dosya secenekleri acildiiii")
-
-        } else {
-            Log.d("ecemmm", "Dosya secenekleri acilmadiii")
         }
     }
+
     private fun getUrlForGeneration(resource: Resource<OutputResponse>) {
 
         viewModel.viewModelScope.launch {
@@ -248,13 +191,8 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                 Glide.with(requireContext())
                     .load(result)
                     .into(viewBinding.ivGeneratedImage)
-                Log.d("fatosss", "Result: $result")
                 resultImage = result
-
-
-
             }
-
 
             Status.LOADING -> {
                 Log.d("fatosss", "Resource is in loading state")
@@ -265,6 +203,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             }
         }
     }
+
     private fun saveImageToGallery(imageUrl: String) {
         val fileName = "image.jpg"
         val request = DownloadManager.Request(Uri.parse(imageUrl))
@@ -275,9 +214,11 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             .setAllowedOverMetered(true)
             .setAllowedOverRoaming(true)
 
-        val downloadManager = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager =
+            requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(request)
     }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun requiredPermissionStorageImages() {
         if (ContextCompat.checkSelfPermission(
@@ -286,9 +227,9 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             isStorageImagePermitted = true
-                if (resultImage != null && resultImage != "") {
-                    saveImageToGallery(resultImage!!)
-                }
+            if (resultImage != null && resultImage != "") {
+                saveImageToGallery(resultImage!!)
+            }
         } else {
             requestPermissionLauncher.launch(requiredPermissions[0])
         }
@@ -298,23 +239,22 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 isStorageImagePermitted = true
-                Log.d("ecemmm", "İzinler verildi")
                 if (resultImage != null && resultImage != "") {
                     saveImageToGallery(resultImage!!)
                 }
             } else {
                 isStorageImagePermitted = false
-                Log.d("ecemmm", "İzinler verilmedi")
             }
         }
+
     private fun setupLottie() {
         viewBinding.apply {
             //buttonDownload.visibility = View.GONE
             ivGeneratedImage.visibility = View.GONE
             animationView.visibility = View.VISIBLE
-            animationView.playAnimation()
         }
     }
+
     private fun getPermissionState(isGranted: Boolean) {
         isRequiredPermissionsGranted = isGranted
     }
@@ -323,41 +263,38 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
         itemList.clear()
         when (constraintLayout) {
             viewBinding.bgImage -> {
-                itemList.add(SizeModel(icon = "", size = "1024x1024", isSelected = true))
-                selectedSize = "1024x1024"
+                itemList.add(SizeModel(icon = "", size = "768x768", isSelected = true))
+                selectedSize = "768x768"
             }
 
             viewBinding.bgImage -> {
-                itemList.add(SizeModel(icon = "", size = "1024x1792", isSelected = true))
-                selectedSize = "1024x1792"
+                itemList.add(SizeModel(icon = "", size = "768x1024", isSelected = true))
+                selectedSize = "768x1024"
             }
 
             viewBinding.bgImage -> {
-                itemList.add(SizeModel(icon = "", size = "1792x1024", isSelected = true))
-                selectedSize = "1792x1024"
+                itemList.add(SizeModel(icon = "", size = "1024x768", isSelected = true))
+                selectedSize = "1024x768"
             }
         }
     }
-
-//    private fun enabledButtons() {
-//        viewBinding.apply {
-//            buttonEdit.isEnabled = true
-//            buttonEdit.isClickable = true
-//            buttonShare.isEnabled = true
-//            buttonShare.isClickable = true
-//            animationView.cancelAnimation()
-//            animationView.visibility = View.GONE
-//            buttonDownload.visibility = View.VISIBLE
-//            ivGeneratedImage.visibility = View.VISIBLE
-//
-//        }
-    // }
-
-
-    private fun onArtItemClicked(artStyleModel: GenerateModel, i: Int) {
-        Log.d("salimmm", "artStyleModel $artStyleModel")
+    private fun adjustAspectRatio(size: String) {
+        val ratio = when (size) {
+            "768x768" -> "1:1"
+            "768x1024" -> "3:4"
+            "1024x768" -> "4:3"
+            else -> "1:1"
+        }
+        Log.d("ecooo", "Adjusting aspect ratio to $ratio for size $size")
+        setAspectRatio(ratio)
     }
-
+    private fun setAspectRatio(ratio: String) {
+        val params = viewBinding.ivGeneratedImage.layoutParams as ConstraintLayout.LayoutParams
+        params.dimensionRatio = ratio
+        viewBinding.ivGeneratedImage.layoutParams = params
+        viewBinding.ivGeneratedImage.requestLayout()
+        Log.d("ecooo", "Setting dimension ratio to $ratio")
+    }
 }
 
 

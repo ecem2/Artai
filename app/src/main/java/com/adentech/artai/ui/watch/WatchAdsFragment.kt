@@ -1,6 +1,7 @@
 package com.adentech.artai.ui.watch
 
 import android.app.Activity
+import android.content.SharedPreferences
 import android.util.Log
 import com.adentech.artai.R
 import com.adentech.artai.core.common.Constants.INTERSTITIAL_ID
@@ -22,12 +23,18 @@ import java.util.Arrays
 class WatchAdsFragment : BaseFragment<WatchViewModel, FragmentWatchAdsBinding>(){
 
     private var mInterstitialAd: InterstitialAd? = null
+    private lateinit var sharedPreferences: SharedPreferences
+    private val AD_WATCH_COUNT_KEY = "ad_watch_count"
+    private val REQUIRED_ADS_COUNT = 5
+    private val HAS_SUBSCRIPTION_KEY = "has_subscription"
 
     override fun viewModelClass() = WatchViewModel::class.java
 
     override fun getResourceLayoutId() = R.layout.fragment_watch_ads
 
     override fun onInitDataBinding() {
+        sharedPreferences = requireContext().getSharedPreferences("ads_prefs", Activity.MODE_PRIVATE)
+        
         MobileAds.initialize(requireContext()) {
             loadInterAd()
         }
@@ -40,9 +47,15 @@ class WatchAdsFragment : BaseFragment<WatchViewModel, FragmentWatchAdsBinding>()
                 showInterAds()
 
         }
+        checkAdWatchCount()
 
     }
-
+    private fun updatePremiumStatus() {
+        val adWatchCount = sharedPreferences.getInt(AD_WATCH_COUNT_KEY, 0)
+        if (adWatchCount >= REQUIRED_ADS_COUNT) {
+            sharedPreferences.edit().putInt(AD_WATCH_COUNT_KEY, 0).apply()
+        }
+    }
     private fun navigateSubscriptionFragment(){
         val transaction = childFragmentManager.beginTransaction()
         val subscriptionFragment = SubscriptionFragment()
@@ -60,6 +73,7 @@ class WatchAdsFragment : BaseFragment<WatchViewModel, FragmentWatchAdsBinding>()
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     mInterstitialAd = null
                     Log.e("InterstitialAd", "Failed to load ad: $adError")
+                    // todo error caseini yonet
                 }
 
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -74,21 +88,59 @@ class WatchAdsFragment : BaseFragment<WatchViewModel, FragmentWatchAdsBinding>()
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
                     mInterstitialAd = null
+                    incrementAdWatchCount()
                 }
 
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     super.onAdFailedToShowFullScreenContent(adError)
                     mInterstitialAd = null
-                }
-
-                override fun onAdShowedFullScreenContent() {
-                    super.onAdShowedFullScreenContent()
+                    // todo error caseini yonet
                 }
             }
             requireActivity().let { activity ->
                 mInterstitialAd?.show(activity)
             }
 
+        } else {
+            // todo error caseini yonet
         }
+    }
+    private fun incrementAdWatchCount() {
+        val adWatchCount = sharedPreferences.getInt(AD_WATCH_COUNT_KEY, 0) + 1
+        sharedPreferences.edit().putInt(AD_WATCH_COUNT_KEY, adWatchCount).apply()
+        Log.d("AdWatchCount", "Ad watch count: $adWatchCount")
+
+        if (adWatchCount >= REQUIRED_ADS_COUNT) {
+            Log.d("AdWatchCount", "User can now use the premium feature")
+            enablePremiumFeature()
+        }
+    }
+    private fun enablePremiumFeature() {
+        sharedPreferences.edit().putBoolean(HAS_SUBSCRIPTION_KEY, true).apply()
+        sharedPreferences.edit().putInt(AD_WATCH_COUNT_KEY, 0).apply()
+    }
+
+    private fun disablePremiumFeature() {
+        sharedPreferences.edit().putBoolean(HAS_SUBSCRIPTION_KEY, false).apply()
+    }
+    private fun checkAdWatchCount() {
+        val adWatchCount = sharedPreferences.getInt(AD_WATCH_COUNT_KEY, 0)
+        val hasSubscription = sharedPreferences.getBoolean(HAS_SUBSCRIPTION_KEY, false)
+
+        if (adWatchCount >= REQUIRED_ADS_COUNT && !hasSubscription) {
+            enablePremiumFeature()
+        } else if (hasSubscription) {
+
+        } else {
+            disablePremiumFeature()
+        }
+    }
+    private fun usePremiumFeature() {
+        // Logic for using the premium feature goes here
+
+        // After using the premium feature, disable it again
+        disablePremiumFeature()
+        // Reset the ad watch count to 0 for the next cycle
+        sharedPreferences.edit().putInt(AD_WATCH_COUNT_KEY, 0).apply()
     }
 }

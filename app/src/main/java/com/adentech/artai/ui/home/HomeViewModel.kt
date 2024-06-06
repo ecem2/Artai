@@ -14,12 +14,15 @@ import com.adentech.artai.data.model.GenerateModel
 import com.adentech.artai.data.model.SizeModel
 import com.adentech.artai.data.model.imagegeneration.GenerationRequest
 import com.adentech.artai.data.model.output.OutputResponse
+import com.adentech.artai.data.preferences.PreferenceConstants.IS_FIRST_TIME_LAUNCH
 import com.adentech.artai.data.preferences.Preferences
+import com.adentech.artai.data.repository.DataStoreRepository
 import com.adentech.artai.data.repository.ImageRepository
 import com.adentech.artai.data.repository.ImageRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.File
@@ -31,8 +34,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     val preferences: Preferences,
-    val repository: ImageRepositoryImpl
+    val repository: ImageRepositoryImpl,
 ) : BaseViewModel() {
+
+    val artList: ArrayList<ArtStyleModel> = ArrayList()
 
 
     private val _urlForGeneration: MutableLiveData<Resource<OutputResponse>> = MutableLiveData()
@@ -40,8 +45,6 @@ class HomeViewModel @Inject constructor(
 
     private val _resultImage: MutableLiveData<Resource<String>> = MutableLiveData()
     val resultImage: LiveData<Resource<String>> get() = _resultImage
-
-
 
 
     fun getUrlForGeneration(prompt: String, style: String, size: String) {
@@ -63,9 +66,6 @@ class HomeViewModel @Inject constructor(
     }
 
 
-
-
-    val artList: ArrayList<ArtStyleModel> = ArrayList()
 
     init {
         getArtList()
@@ -158,6 +158,8 @@ class HomeViewModel @Inject constructor(
             )
         )
     }
+
+
     suspend fun downloadImage(imageUrl: String, context: Context): File? {
         return withContext(Dispatchers.IO) {
             try {

@@ -63,8 +63,8 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/margin_24"
                 android:layout_marginEnd="@dimen/margin_24"
-                app:layout_constraintBottom_toTopOf="@+id/gl_generate_image"
                 app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintBottom_toTopOf="@+id/description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gl_generate_title">
@@ -85,82 +85,33 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/iv_generated_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:riv_corner_radius="16dp"
-                    />
-<!--                <androidx.appcompat.widget.AppCompatTextView-->
-<!--                    android:id="@+id/tv_generating"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:fontFamily="@font/inter_medium"-->
-<!--                    android:gravity="top|center"-->
-<!--                    android:padding="@dimen/padding_12"-->
-<!--                    android:text="@string/generating_variations"-->
-<!--                    android:textAllCaps="false"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="@dimen/text_size_16"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@+id/animationView" />-->
-
-                <!--            <androidx.appcompat.widget.AppCompatImageView-->
-                <!--                android:layout_width="46dp"-->
-                <!--                android:layout_height="46dp"-->
-                <!--                android:src="@drawable/ic_arrow_down"-->
-                <!--                android:padding="@dimen/padding_12"-->
-                <!--                android:background="@drawable/bg_oval"-->
-                <!--                android:gravity="center"-->
-                <!--                android:layout_marginEnd="@dimen/margin_12"-->
-                <!--                android:layout_marginBottom="@dimen/margin_12"-->
-                <!--                app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                app:layout_constraintBottom_toBottomOf="parent"/>-->
+                    app:riv_corner_radius="16dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_generate_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.50" />
-
-            <!--        <androidx.recyclerview.widget.RecyclerView-->
-            <!--            android:id="@+id/rv_arts"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="0dp"-->
-            <!--            android:layout_marginStart="@dimen/margin_24"-->
-            <!--            android:layout_marginTop="@dimen/margin_12"-->
-            <!--            android:layout_marginEnd="@dimen/margin_24"-->
-            <!--            android:layout_marginBottom="@dimen/margin_12"-->
-            <!--            android:orientation="horizontal"-->
-            <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-            <!--            app:layout_constraintBottom_toTopOf="@+id/gl_generate_bottom"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/gl_generate_image"-->
-            <!--            tools:listitem="@layout/item_art_style" />-->
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
+                android:layout_marginStart="@dimen/margin_40"
+                android:layout_marginEnd="@dimen/margin_40"
+                android:background="@drawable/bg_artwork_black"
+                android:fontFamily="@font/nunito_regular"
+                android:gravity="center"
+                android:padding="@dimen/margin_10"
+                android:text="Orci proin mauris ultrices fusce nunc. Placerat sed lectus mauris"
+                android:textColor="@color/white"
+                android:textSize="@dimen/margin_18"
                 app:layout_constraintBottom_toTopOf="@+id/gl_generate_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_generate_image"
-                android:background="@drawable/bg_artwork_black"
-                android:layout_marginEnd="@dimen/margin_40"
-                android:layout_marginStart="@dimen/margin_40"
-                android:text="Orci proin mauris ultrices fusce nunc. Placerat sed lectus mauris"
-                android:fontFamily="@font/nunito_regular"
-                android:textSize="@dimen/margin_18"
-                android:gravity="center"
-                android:padding="@dimen/margin_10"
-                android:textColor="@color/white"/>
+                app:layout_constraintTop_toBottomOf="@+id/bg_image" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_generate_bottom"
@@ -182,6 +133,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/gl_generate_bottom">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btn_refresh"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
@@ -217,7 +169,6 @@
                     app:backgroundTint="@null" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

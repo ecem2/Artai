@@ -1,24 +1,21 @@
 package com.adentech.artai.ui.home
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.adentech.artai.ArtaiApplication
 import com.adentech.artai.R
-import com.adentech.artai.core.common.ArgumentKey.HOME_SCREEN
-import com.adentech.artai.core.common.ArgumentKey.REQUEST_MODEL
+import com.adentech.artai.core.common.ArgumentKey.SELECTED_ART_STYLE
 import com.adentech.artai.core.common.Util.EMPTY_STRING
 import com.adentech.artai.core.fragments.BaseFragment
 import com.adentech.artai.data.model.ArtStyleModel
@@ -29,23 +26,32 @@ import com.adentech.artai.extensions.hideKeyboard
 import com.adentech.artai.extensions.multilineDone
 import com.adentech.artai.extensions.multilineIme
 import com.adentech.artai.extensions.navigate
+import com.adentech.artai.extensions.parcelable
 import com.adentech.artai.ui.arts.ArtStyleFragment
-import com.adentech.artai.ui.generate.GenerateFragment
 import com.adentech.artai.ui.watch.WatchAdsFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
-    ArtStyleAdapter.OnArtItemSelectedListener {
+    ArtStyleAdapter.ItemClickListener {
 
-    private val artStyleAdapter by lazy { ArtStyleAdapter() }
+    private val artStyleAdapter: ArtStyleAdapter by lazy {
+        ArtStyleAdapter(
+            requireContext(),
+            this@HomeFragment
+        )
+    }
     private var selectedCount: Int = 0
-    private lateinit var selectedArtStyle: String
     private lateinit var promptMessage: String
     private lateinit var selectedSize: String
+    private val itemList: ArrayList<SizeModel> = ArrayList()
+    var isSelected: Boolean = true
+    private var selectArtStyle: ArtStyleModel? = null
+    private val homeViewModel: HomeViewModel by viewModels()
     private var artStyle: String = ""
-    val itemList: ArrayList<SizeModel> = ArrayList()
+    private var selectedItemPosition: Int = 0
+    private val homeNavArgs: HomeFragmentArgs by navArgs()
+
 
     override fun viewModelClass() = HomeViewModel::class.java
 
@@ -56,7 +62,8 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
         )
-        selectedArtStyle = viewModel.artList[0].name
+        handleArguments()
+        selectedSize = itemList.size.toString()
         promptMessage = EMPTY_STRING
         selectedCount = 4
         textSizeColor()
@@ -64,18 +71,17 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         setupEdittext()
 
         viewBinding.buttonGenerate.setOnClickListener {
-//            if (ArtaiApplication.hasSubscription) {
-//                promptMessage = viewBinding.etPrompt.text.toString()
-//                if (promptMessage.isNotBlank() && promptMessage.isNotEmpty()) {
-//                    onGenerateClicked()
-//
-//                } else {
-//                    Toast.makeText(requireContext(), "Please enter a prompt", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//            }else{
-//                navigateWatchAdsFragment()
-//            }
+            if (ArtaiApplication.hasSubscription) {
+                promptMessage = viewBinding.etPrompt.text.toString()
+                if (promptMessage.isNotBlank() && promptMessage.isNotEmpty()) {
+                    onGenerateClicked()
+                } else {
+                    Toast.makeText(requireContext(), "Please enter a prompt", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            } else {
+                navigateWatchAdsFragment()
+            }
 
             promptMessage = viewBinding.etPrompt.text.toString()
             if (promptMessage.isNotBlank() && promptMessage.isNotEmpty()) {
@@ -96,26 +102,54 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         }
 
     }
+    private fun handleArguments() {
+//        val selectedItemPosition = arguments?.getInt("selectedItemPosition") ?: RecyclerView.NO_POSITION
+//        val selectedArtStyle = arguments?.parcelable<ArtStyleModel>("selectedArtStyle")
+        val selectedArtStyle = homeNavArgs.artStyle
+        val selectedItemPosition = homeNavArgs.itemPosition
+        if (selectedArtStyle != null && selectedItemPosition != RecyclerView.NO_POSITION) {
+            selectArtStyle = selectedArtStyle
+            this.selectedItemPosition = selectedItemPosition
+            artStyle = selectedArtStyle.name
+            artStyleAdapter.selectedItemPosition = selectedItemPosition
+            artStyleAdapter.notifyDataSetChanged()
+            Log.d("ecooo", "Selected Art Style: ${selectedArtStyle.name}")
+        } else {
+            selectDefaultArtStyle()
+            Log.d("ecooo", "No art style selected")
+        }
+    }
+    private fun selectDefaultArtStyle() {
+        selectedItemPosition = 0
+        selectArtStyle = homeViewModel.artList[selectedItemPosition]
+        selectArtStyle?.isSelected = true
+        artStyle = selectArtStyle?.name ?: ""
+        artStyleAdapter.selectedItemPosition = selectedItemPosition
+        artStyleAdapter.notifyDataSetChanged()
+    }
     private fun getSizeList(selectedLinearLayout: LinearLayoutCompat) {
         itemList.clear()
         when (selectedLinearLayout) {
             viewBinding.llSquare -> {
-                itemList.add(SizeModel(icon = "", size = "1024x1024", isSelected = true))
-                selectedSize = "1024x1024"
+                itemList.add(SizeModel(icon = "", size = "768x768", isSelected = true))
+                selectedSize = "768x768"
                 hideKeyboard()
             }
+
             viewBinding.llRectangle -> {
-                itemList.add(SizeModel(icon = "", size = "1024x1792", isSelected = true))
-                selectedSize = "1024x1792"
+                itemList.add(SizeModel(icon = "", size = "768x1024", isSelected = true))
+                selectedSize = "768x1024"
                 hideKeyboard()
             }
+
             viewBinding.llVertical -> {
-                itemList.add(SizeModel(icon = "", size = "1792x1024", isSelected = true))
-                selectedSize = "1792x1024"
+                itemList.add(SizeModel(icon = "", size = "1024x768", isSelected = true))
+                selectedSize = "1024x768"
                 hideKeyboard()
             }
         }
     }
+
     private fun navigateGenerateFragment(requestModel: RequestModel) {
 //        val bundle = Bundle()
 //        bundle.putParcelable(REQUEST_MODEL, requestModel)
@@ -130,12 +164,14 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
 //            commit()
 //        }
     }
+
     private fun setupEdittext() {
         viewBinding.etPrompt.apply {
             multilineIme(EditorInfo.IME_ACTION_DONE)
             multilineDone { hideKeyboard() }
         }
     }
+
     private fun textSizeColor() {
         viewBinding.llSquare.setOnClickListener {
             clearBackgrounds()
@@ -153,6 +189,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
             getSizeList(viewBinding.llVertical)
         }
     }
+
     private fun onGenerateClicked() {
         promptMessage = viewBinding.etPrompt.text.toString()
         if (promptMessage.isNotBlank() && promptMessage.isNotEmpty()) {
@@ -160,9 +197,10 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
             sendRequest()
             Log.d("aaggaa", "Prompt Message: $promptMessage")
             Log.d("aaggaa", "Selected Size: $selectedSize")
-            Log.d("aaggaa", "Selected Art Style: $selectedArtStyle")
+            Log.d("aaggaa", "Selected Art Style: $selectArtStyle")
         } else {
-            Toast.makeText(requireContext(), "Prompt message cannot be empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Prompt message cannot be empty", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -170,15 +208,16 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         if (context != null && activity != null) showProgress()
         val requestModel = RequestModel(
             prompt = promptMessage,
-            style = artStyle,
+            style = selectArtStyle?.name ?: "",
             size = selectedSize
         )
         if (activity != null) {
             navigateGenerateFragment(requestModel)
+
         }
     }
 
-//    fun showProgress() {
+    //    fun showProgress() {
 //        dialog?.show()
 //    }
     private fun clearBackgrounds() {
@@ -186,6 +225,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         viewBinding.llRectangle.setBackgroundResource(R.drawable.bg_size)
         viewBinding.llVertical.setBackgroundResource(R.drawable.bg_size)
     }
+
     private fun navigateWatchAdsFragment() {
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         val watchAdsFragment = WatchAdsFragment()
@@ -193,13 +233,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
     private fun showArtStyleFragment() {
-        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-        val artStyleFragment = ArtStyleFragment()
-        transaction.add(R.id.fragment_container, artStyleFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
+        viewBinding.fragmentContainer.isEnabled = false
+        navigate(HomeFragmentDirections.actionHomeFragmentToArtStyleFragment())
     }
+
     private fun setupArtStyles() {
         viewBinding.rvArtStyle.apply {
             adapter = artStyleAdapter
@@ -213,25 +252,32 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(),
             setHasFixedSize(true)
         }
         artStyleAdapter.submitList(viewModel.artList)
+        //artStyleAdapter.setOnArtItemSelectedListener(this)
+
+
     }
 
     override fun onResume() {
         super.onResume()
+        Log.d("ecooo", "Home: onResume called")
+        handleArguments()
         viewBinding.etPrompt.post {
             val inputManager: InputMethodManager =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputManager.showSoftInput(viewBinding.etPrompt, InputMethodManager.SHOW_IMPLICIT)
         }
-
     }
-
 
     private fun selectedSize(item: SizeModel) {
         hideKeyboard()
-        selectedSize = item.size.toString()
+        //  selectedSize = item.size.toString()
     }
 
-    override fun onArtItemSelected(item: ArtStyleModel) {
-        selectedArtStyle = item.name
+    override fun onItemClick(item: ArtStyleModel) {
+        selectArtStyle = item
+        artStyleAdapter.notifyDataSetChanged()
+        Log.d("ecoo", "Selected Art Style: ${selectArtStyle?.name}")
+
     }
+
 }

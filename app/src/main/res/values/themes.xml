@@ -3,16 +3,17 @@
     <style name="Base.Theme.Artai" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <style name="Theme.Artai" parent="Base.Theme.Artai" />
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <!--        <item name="windowSplashScreenAnimationDuration">2000</item>-->
+        <item name="windowSplashScreenBackground">@color/black</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
         <item name="postSplashScreenTheme">@style/Theme.Artai</item>
-        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
     </style>
     <style name="BaseBottomSheetDialogTrasn" parent="@style/Theme.Design.Light.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>

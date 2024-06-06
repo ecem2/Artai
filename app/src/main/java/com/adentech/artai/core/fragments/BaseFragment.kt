@@ -113,7 +113,6 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> :
         }
     }
 
-
     private fun showPermissionDialog() {
         val dialogBuilder = Dialog(requireContext(), R.style.CustomDialog)
         val dialogBinding = DialogPermissionBinding.inflate(layoutInflater)

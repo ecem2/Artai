@@ -4,6 +4,7 @@ import android.content.Context
 import com.adentech.artai.data.preferences.PreferenceConstants.AND_BASE_URL
 import com.adentech.artai.data.preferences.PreferenceConstants.AND_GPT_TOKEN
 import com.adentech.artai.data.preferences.PreferenceConstants.IS_FIRST_TIME_LAUNCH
+import com.adentech.artai.data.preferences.PreferenceConstants.WATCH_ADS
 import com.adentech.artai.extensions.set
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -31,6 +32,12 @@ class ArtPreferenceManager @Inject constructor(
             true
         )
     }
+//     override fun getWatchAds(): Int {
+//        return prefs.getInt(
+//            WATCH_ADS,
+//            5
+//        )
+//    }
 
     override fun setToken(token: String) {
         prefs.set(

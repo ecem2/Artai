@@ -27,7 +27,7 @@ class ImageRepositoryImpl @Inject constructor(
             val input = Input(
                 width = 768,
                 height = 768,
-                prompt = "$prompt, hd, $style, $size",
+                prompt = "$prompt, hd, $style",
                 scheduler = "K_EULER",
                 num_outputs = 1,
                 guidance_scale = 7.5,
