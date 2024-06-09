@@ -1,13 +1,11 @@
 package com.adentech.artai.ui.onboard
 
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.adentech.artai.R
 import com.adentech.artai.core.fragments.BaseFragment
 import com.adentech.artai.databinding.FragmentOnboardTwoBinding
 import com.adentech.artai.extensions.handleOnBackPressed
 import com.adentech.artai.extensions.navigate
-import com.adentech.artai.ui.main.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 

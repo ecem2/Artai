@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SizeModel(
     val icon: String? = null,
-    val size: String? = null,
+    var width: Int,
+    var height: Int,
     var isSelected: Boolean = false
 ) : Parcelable

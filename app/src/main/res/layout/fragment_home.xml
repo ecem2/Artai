@@ -25,9 +25,9 @@
                 android:id="@+id/menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="@dimen/margin_16"
                 android:src="@drawable/ic_menu"
-                app:layout_constraintBottom_toTopOf="@+id/gl_home_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,41 +35,19 @@
                 android:id="@+id/pro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:src="@drawable/bg_pro"
-                android:layout_marginTop="@dimen/margin_10"
-                app:layout_constraintBottom_toTopOf="@+id/gl_home_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <!--        <androidx.appcompat.widget.AppCompatTextView-->
-            <!--            android:id="@+id/tv_home_title"-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="0dp"-->
-            <!--            android:fontFamily="@font/inter_semi_bold"-->
-            <!--            android:gravity="center"-->
-            <!--            android:text="@string/app_name"-->
-            <!--            android:textAllCaps="false"-->
-            <!--            android:textColor="@color/black"-->
-            <!--            android:textSize="@dimen/text_size_20"-->
-            <!--            app:layout_constraintBottom_toTopOf="@+id/gl_home_title"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintTop_toTopOf="parent" />-->
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_home_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.10" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_enter_prompt"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginEnd="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_4"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_20"
                 android:autoSizeMaxTextSize="@dimen/text_size_28"
                 android:autoSizeMinTextSize="@dimen/text_size_24"
                 android:autoSizeTextType="uniform"
@@ -80,14 +58,14 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_26"
                 app:layout_constraintEnd_toStartOf="@+id/tv_suprise_me"
-                app:layout_constraintHeight_percent="0.05"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_home_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/pro"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_suprise_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_8"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_4"
                 android:autoSizeMaxTextSize="@dimen/text_size_14"
                 android:autoSizeMinTextSize="@dimen/text_size_10"
@@ -101,21 +79,18 @@
                 android:textSize="@dimen/text_size_12"
                 android:background="@drawable/bg_all"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_enter_prompt"
-                app:layout_constraintEnd_toEndOf="@+id/card_edit_text"
-                app:layout_constraintHeight_percent="0.05"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tv_enter_prompt"
-                app:layout_constraintTop_toTopOf="@+id/tv_enter_prompt"
-                app:layout_constraintWidth_percent="0.2"/>
+                app:layout_constraintTop_toTopOf="@+id/tv_enter_prompt" />
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
                 android:layout_marginEnd="@dimen/margin_24"
                 app:cardBackgroundColor="@color/black"
                 app:cardCornerRadius="20dp"
-                app:layout_constraintBottom_toTopOf="@+id/gl_home_prompt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_enter_prompt">
@@ -144,34 +119,23 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_home_prompt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.32" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_size_title"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_12"
-                android:layout_marginEnd="@dimen/margin_24"
-                android:autoSizeMaxTextSize="@dimen/text_size_20"
-                android:autoSizeMinTextSize="@dimen/text_size_12"
-                android:autoSizeTextType="uniform"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="start|center"
                 android:text="@string/size"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16"
-                app:layout_constraintBottom_toTopOf="@+id/ll_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.05"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_home_prompt" />
+                app:layout_constraintTop_toBottomOf="@+id/card_edit_text" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_size"
@@ -179,8 +143,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -188,9 +152,11 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_square"
-                    android:layout_width="108dp"
-                    android:layout_height="42dp"
-                    android:layout_marginStart="@dimen/margin_12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="12dp"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_size"
                     android:gravity="center"
                     android:orientation="horizontal"
@@ -216,37 +182,12 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_rectangle"
-                    android:layout_width="108dp"
-                    android:layout_height="42dp"
-                    android:layout_marginStart="@dimen/margin_12"
-                    android:background="@drawable/bg_size"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_size_title">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_rectangle" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="38dp"
-                        android:layout_height="23dp"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/urbanist_bold"
-                        android:gravity="center"
-                        android:text="16:9"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/ll_vertical"
-                    android:layout_width="108dp"
-                    android:layout_height="42dp"
-                    android:layout_marginStart="@dimen/margin_12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="12dp"
+                    android:layout_marginStart="@dimen/margin_8"
                     android:background="@drawable/bg_size"
                     android:gravity="center"
                     android:orientation="horizontal"
@@ -269,22 +210,48 @@
                         android:textColor="@color/white"
                         android:textSize="14sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="12dp"
+                    android:layout_marginStart="@dimen/margin_8"
+                    android:background="@drawable/bg_size"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_size_title">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_rectangle" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="38dp"
+                        android:layout_height="23dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/urbanist_bold"
+                        android:gravity="center"
+                        android:text="16:9"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_home_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_art_style_title"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginEnd="16dp"
                 android:autoSizeMaxTextSize="@dimen/text_size_20"
                 android:autoSizeMinTextSize="@dimen/text_size_12"
                 android:autoSizeTextType="uniform"
@@ -294,77 +261,65 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_18"
-                app:layout_constraintBottom_toTopOf="@+id/rv_art_style"
+                app:layout_constraintTop_toBottomOf="@+id/ll_size"
                 app:layout_constraintEnd_toStartOf="@+id/tv_see_all"
-                app:layout_constraintHeight_percent="0.05"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_home_size" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_see_all"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="10dp"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:autoSizeMaxTextSize="@dimen/text_size_16"
                 android:autoSizeMinTextSize="@dimen/text_size_12"
                 android:autoSizeTextType="uniform"
                 android:background="@drawable/bg_all"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
-                android:padding="@dimen/padding_8"
                 android:text="See all"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_art_style_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent="0.05"
                 app:layout_constraintStart_toEndOf="@+id/tv_art_style_title"
-                app:layout_constraintTop_toTopOf="@+id/tv_art_style_title"
-                app:layout_constraintWidth_percent="0.2" />
+                app:layout_constraintTop_toTopOf="@+id/tv_art_style_title" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_art_style"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/gl_home_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_art_style_title"
                 tools:listitem="@layout/item_art_style" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_home_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.82" />
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_generate"
                 android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginEnd="@dimen/margin_24"
-                android:layout_marginBottom="@dimen/margin_30"
+                android:layout_height="wrap_content"
+                android:paddingVertical="18dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginHorizontal="@dimen/margin_16"
                 android:autoSizeMaxTextSize="@dimen/text_size_20"
                 android:autoSizeMinTextSize="@dimen/text_size_12"
                 android:autoSizeTextType="uniform"
+                android:textSize="16sp"
                 android:text="Generate"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:background="@drawable/generate_bg_button"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_home_button" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_art_style" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

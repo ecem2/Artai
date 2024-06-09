@@ -7,22 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.adentech.artai.R
 import com.adentech.artai.core.common.Resource
-import com.adentech.artai.core.common.Status
 import com.adentech.artai.core.viewmodel.BaseViewModel
 import com.adentech.artai.data.model.ArtStyleModel
-import com.adentech.artai.data.model.GenerateModel
-import com.adentech.artai.data.model.SizeModel
-import com.adentech.artai.data.model.imagegeneration.GenerationRequest
 import com.adentech.artai.data.model.output.OutputResponse
-import com.adentech.artai.data.preferences.PreferenceConstants.IS_FIRST_TIME_LAUNCH
 import com.adentech.artai.data.preferences.Preferences
-import com.adentech.artai.data.repository.DataStoreRepository
-import com.adentech.artai.data.repository.ImageRepository
 import com.adentech.artai.data.repository.ImageRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.io.File
@@ -47,10 +39,10 @@ class HomeViewModel @Inject constructor(
     val resultImage: LiveData<Resource<String>> get() = _resultImage
 
 
-    fun getUrlForGeneration(prompt: String, style: String, size: String) {
+    fun getUrlForGeneration(prompt: String, style: String, width: Int, height: Int) {
         _urlForGeneration.postValue(Resource.loading(null))
         viewModelScope.launch {
-            val request = repository.getUrlForGeneration(prompt, style, size)
+            val request = repository.getUrlForGeneration(prompt, style, width, height)
             Log.d("fatosss", "API Response: ${request.data}")
             Log.d("fatosss", "URL for generation request: $request")
             _urlForGeneration.postValue(request)
@@ -64,7 +56,6 @@ class HomeViewModel @Inject constructor(
             _resultImage.postValue(response)
         }
     }
-
 
 
     init {

@@ -6,6 +6,7 @@ import androidx.databinding.ViewDataBinding
 import com.adentech.artai.core.common.ViewBindingUtil
 import com.adentech.artai.core.viewmodel.BaseViewModel
 import com.adentech.artai.databinding.ActivityBaseBinding
+import com.adentech.artai.extensions.setupActionBar
 
 abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> :
     ArtBaseVmDbActivity<VM, DB>() {
@@ -14,6 +15,7 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // setupActionBar(this@BaseActivity)
     }
 
     override fun setResourceViewBinding(): View {

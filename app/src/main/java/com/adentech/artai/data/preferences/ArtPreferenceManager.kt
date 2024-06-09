@@ -32,12 +32,12 @@ class ArtPreferenceManager @Inject constructor(
             true
         )
     }
-//     override fun getWatchAds(): Int {
-//        return prefs.getInt(
-//            WATCH_ADS,
-//            5
-//        )
-//    }
+     override fun getWatchAds(): Int {
+        return prefs.getInt(
+            WATCH_ADS,
+            0
+        )
+    }
 
     override fun setToken(token: String) {
         prefs.set(

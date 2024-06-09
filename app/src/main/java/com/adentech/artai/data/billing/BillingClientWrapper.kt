@@ -77,13 +77,13 @@ class BillingClientWrapper(
                     Log.d(TAG, "queryPurchases: purchase === $purchase")
                 }
                 if (!purchaseList.isNullOrEmpty()) {
-                    ArtaiApplication.hasSubscription = true
+                    ArtaiApplication.hasSubscription = false
                     _purchases.value = purchaseList
                     Log.d(TAG, "queryPurchases: purchaseList111 === $purchaseList")
                 } else {
                     Log.d(TAG, "queryPurchases: purchaseList222 === $purchaseList")
                     _purchases.value = emptyList()
-                    ArtaiApplication.hasSubscription = false // false olacak
+                    ArtaiApplication.hasSubscription = true // false olacak
                 }
             } else {
                 Log.e(TAG, billingResult.debugMessage)

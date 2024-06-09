@@ -1,7 +1,6 @@
 package com.adentech.artai.ui.generate
 
-import android.annotation.SuppressLint
-import android.app.Dialog
+
 import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
@@ -9,33 +8,28 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import com.adentech.artai.ArtaiApplication
 import com.adentech.artai.R
 import com.adentech.artai.core.common.ArgumentKey.REQUEST_MODEL
 import com.adentech.artai.core.common.Resource
 import com.adentech.artai.core.common.Status
 import com.adentech.artai.core.fragments.BaseFragment
-import com.adentech.artai.data.model.GenerateModel
+import com.adentech.artai.data.model.ArtStyleModel
 import com.adentech.artai.data.model.RequestModel
-import com.adentech.artai.data.model.SizeModel
 import com.adentech.artai.data.model.output.OutputResponse
-import com.adentech.artai.databinding.DialogLoadingProgressBinding
 import com.adentech.artai.databinding.FragmentGenerateBinding
 import com.adentech.artai.extensions.navigate
 import com.adentech.artai.extensions.observe
 import com.adentech.artai.extensions.parcelable
-import com.adentech.artai.extensions.popBack
 import com.adentech.artai.ui.home.HomeViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,10 +41,9 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
 
 
     private var resultImage: String? = null
-    private lateinit var dialogBinding: DialogLoadingProgressBinding
-    private lateinit var mDialog: Dialog
     var file: File? = null
-    private val updateDownloadProgress = 1
+    var width: Int = 768
+    var height: Int = 768
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val requiredPermissions: Array<String> = (arrayOf(
@@ -59,17 +52,6 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
     ))
     private var isStorageImagePermitted = false
     private var isRequiredPermissionsGranted = false
-    val itemList: ArrayList<SizeModel> = ArrayList()
-    private lateinit var selectedSize: String
-    private val mainHandler: Handler = Handler(Looper.getMainLooper()) { msg ->
-        if (msg.what == updateDownloadProgress) {
-            val downloadProgress: Int = msg.arg1
-            requireActivity().runOnUiThread {
-                updateProgress(downloadProgress)
-            }
-        }
-        true
-    }
 
     override fun viewModelClass() = HomeViewModel::class.java
 
@@ -79,10 +61,13 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
     override fun onInitDataBinding() {
         val translation = arguments?.parcelable<RequestModel>(REQUEST_MODEL)
         if (translation != null) {
-            adjustAspectRatio(translation.size)
-            viewModel.getUrlForGeneration(translation.prompt, translation.style, translation.size)
+            viewModel.getUrlForGeneration(
+                translation.prompt,
+                translation.style,
+                translation.width,
+                translation.height
+            )
             observe(viewModel.urlForGeneration, ::getUrlForGeneration)
-
         }
 
 
@@ -97,14 +82,15 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                     }
                 }
             }
+
             btnRefresh.setOnClickListener {
-                navigate(GenerateFragmentDirections.actionGenerateFragmentToHomeFragment(0, null))
+                navigateHomeOrSubscription()
             }
         }
         setupLottie()
 
         viewBinding.ivBack.setOnClickListener {
-            popBack()
+            navigateHomeOrSubscription()
         }
 
 
@@ -118,22 +104,25 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
                 }
             }
         }
-        getSizeList(viewBinding.bgImage)
 
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun updateProgress(progress: Int) {
-        if (mDialog.isShowing) {
-            requireActivity().runOnUiThread {
-                dialogBinding.tvProgress.text = "% $progress"
-                if (progress == 100) {
-                    dialogBinding.buttonDone.visibility = View.VISIBLE
-                    dialogBinding.tvLoading.text = getString(R.string.successfully_saved)
-                }
-            }
+    private fun navigateHomeOrSubscription() {
+        val hasSubscription = ArtaiApplication.hasSubscription
+        if (hasSubscription) {
+            val artStyleModel = ArtStyleModel(null, null, null)
+            navigate(
+                GenerateFragmentDirections.actionGenerateFragmentToHomeFragment(
+                    0,
+                    artStyleModel,
+                    false
+                )
+            )
+        } else {
+            navigate(GenerateFragmentDirections.actionGenerateFragmentToSubscriptionFragment())
         }
     }
+
 
     private fun shareFile(file: File) {
         val uri = FileProvider.getUriForFile(
@@ -195,11 +184,11 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
             }
 
             Status.LOADING -> {
-                Log.d("fatosss", "Resource is in loading state")
+                Log.d("ecemmm", "Resource is in loading state")
             }
 
             Status.ERROR -> {
-                Log.e("fatosss", "Error loading image: ${resource.message}")
+                Log.e("ecemmm", "Error loading image: ${resource.message}")
             }
         }
     }
@@ -249,7 +238,6 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
 
     private fun setupLottie() {
         viewBinding.apply {
-            //buttonDownload.visibility = View.GONE
             ivGeneratedImage.visibility = View.GONE
             animationView.visibility = View.VISIBLE
         }
@@ -259,42 +247,7 @@ class GenerateFragment : BaseFragment<HomeViewModel, FragmentGenerateBinding>() 
         isRequiredPermissionsGranted = isGranted
     }
 
-    private fun getSizeList(constraintLayout: ConstraintLayout) {
-        itemList.clear()
-        when (constraintLayout) {
-            viewBinding.bgImage -> {
-                itemList.add(SizeModel(icon = "", size = "768x768", isSelected = true))
-                selectedSize = "768x768"
-            }
 
-            viewBinding.bgImage -> {
-                itemList.add(SizeModel(icon = "", size = "768x1024", isSelected = true))
-                selectedSize = "768x1024"
-            }
-
-            viewBinding.bgImage -> {
-                itemList.add(SizeModel(icon = "", size = "1024x768", isSelected = true))
-                selectedSize = "1024x768"
-            }
-        }
-    }
-    private fun adjustAspectRatio(size: String) {
-        val ratio = when (size) {
-            "768x768" -> "1:1"
-            "768x1024" -> "3:4"
-            "1024x768" -> "4:3"
-            else -> "1:1"
-        }
-        Log.d("ecooo", "Adjusting aspect ratio to $ratio for size $size")
-        setAspectRatio(ratio)
-    }
-    private fun setAspectRatio(ratio: String) {
-        val params = viewBinding.ivGeneratedImage.layoutParams as ConstraintLayout.LayoutParams
-        params.dimensionRatio = ratio
-        viewBinding.ivGeneratedImage.layoutParams = params
-        viewBinding.ivGeneratedImage.requestLayout()
-        Log.d("ecooo", "Setting dimension ratio to $ratio")
-    }
 }
 
 

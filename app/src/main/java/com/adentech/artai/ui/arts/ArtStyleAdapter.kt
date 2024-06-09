@@ -1,4 +1,4 @@
-package com.adentech.artai.ui.home
+package com.adentech.artai.ui.arts
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -15,8 +15,8 @@ import com.adentech.artai.databinding.ItemArtStyleBinding
 
 class ArtStyleAdapter(
     private val context: Context,
-    var itemClickListener: ItemClickListener
-): ArtListAdapter<ArtStyleModel>(
+    var itemClickListener: ItemClickListener,
+) : ArtListAdapter<ArtStyleModel>(
     itemsSame = { old, new -> old == new },
     contentsSame = { old, new -> old == new }
 ) {
@@ -26,7 +26,7 @@ class ArtStyleAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         inflater: LayoutInflater,
-        viewType: Int
+        viewType: Int,
     ): RecyclerView.ViewHolder {
         val binding: ItemArtStyleBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
@@ -54,7 +54,8 @@ class ArtStyleAdapter(
         }
     }
 
-    inner class ArtStyleViewHolder(private val binding: ItemArtStyleBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ArtStyleViewHolder(private val binding: ItemArtStyleBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ArtStyleModel) {
             binding.item = item
             if (adapterPosition == selectedItemPosition) {
@@ -68,7 +69,6 @@ class ArtStyleAdapter(
             binding.executePendingBindings()
         }
     }
-
 
 
     interface ItemClickListener {

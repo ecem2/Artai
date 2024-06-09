@@ -7,6 +7,8 @@ interface Preferences {
 
     fun getFirstLaunch(): Boolean
 
+    fun getWatchAds(): Int
+
     fun setToken(token: String)
 
     fun getToken(): String

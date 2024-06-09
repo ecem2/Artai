@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class RequestModel(
     val prompt: String,
     val style: String,
-    val size: String
+    val width: Int,
+    val height: Int
 ) : Parcelable

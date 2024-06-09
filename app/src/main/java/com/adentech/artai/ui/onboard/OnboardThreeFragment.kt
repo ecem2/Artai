@@ -1,13 +1,11 @@
 package com.adentech.artai.ui.onboard
 
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.adentech.artai.R
 import com.adentech.artai.core.fragments.BaseFragment
+import com.adentech.artai.data.model.ArtStyleModel
 import com.adentech.artai.databinding.FragmentOnboardThreeBinding
 import com.adentech.artai.extensions.navigate
-import com.adentech.artai.ui.home.HomeFragment
-import com.adentech.artai.ui.main.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +27,11 @@ class OnboardThreeFragment : BaseFragment<OnboardViewModel, FragmentOnboardThree
     }
 
     private fun launchHomeScreen() {
-        navigate(OnboardThreeFragmentDirections.actionOnboardThreeFragmentToHomeFragment(0, null))
+        val artStyleModel = ArtStyleModel(
+            null,
+            null,
+            null
+        )
+        navigate(OnboardThreeFragmentDirections.actionOnboardThreeFragmentToHomeFragment(0, artStyleModel, false))
     }
 }

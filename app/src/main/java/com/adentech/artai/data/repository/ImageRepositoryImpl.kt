@@ -1,6 +1,5 @@
 package com.adentech.artai.data.repository
 
-import android.util.Log
 import com.adentech.artai.core.common.Constants.VERSION_KEY
 import com.adentech.artai.core.common.Resource
 import com.adentech.artai.data.model.imagegeneration.GenerationRequest
@@ -13,20 +12,20 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-
 class ImageRepositoryImpl @Inject constructor(
-    private val apiService: ApiService
-): ImageRepository {
+    private val apiService: ApiService,
+) : ImageRepository {
 
     override suspend fun getUrlForGeneration(
         prompt: String,
         style: String,
-        size: String
+        width: Int,
+        height: Int,
     ): Resource<OutputResponse> = withContext(Dispatchers.IO) {
         return@withContext try {
             val input = Input(
-                width = 768,
-                height = 768,
+                width = width,
+                height = height,
                 prompt = "$prompt, hd, $style",
                 scheduler = "K_EULER",
                 num_outputs = 1,
@@ -40,21 +39,14 @@ class ImageRepositoryImpl @Inject constructor(
             )
 
             val response = apiService.getRequiredUrl(jsonRequest)
-            Log.d("fatosss", "c: ${response.raw().request.url}")
-            Log.d("fatosss", "Raw: ${response.raw()}")
-            Log.d("fatosss", "Request: ${response.raw().request}")
-            Log.d("fatosss", "Response Code: ${response.code()}")
-            Log.d("fatosss", "Response Body: ${response.body()}")
             if (response.isSuccessful) {
                 response.body().let {
                     Resource.success(it)
                 }
             } else {
-                Log.e("fatosss", "API Error: ${response.message()}")
                 Resource.error("Failed to fetch data. HTTP code: ${response.code()}", null)
             }
         } catch (e: Exception) {
-            Log.e("fatosss", "Exception: ${e.localizedMessage}")
             Resource.error(e.localizedMessage?.toString() ?: "Exception occurred", null)
         }
     }
@@ -69,22 +61,16 @@ class ImageRepositoryImpl @Inject constructor(
                     if (response.isSuccessful) {
                         response.body().let { responseBody ->
                             status = responseBody?.status.toString()
-                            Log.d("fatosss", "Response: $response")
-                            Log.d("fatosss", "ResponseBody: $responseBody")
-                            Log.d("fatosss", "Status: $status")
                         }
 
                         if (status == "succeeded") {
                             outputImage = response.body()?.output?.get(0).toString()
-                            Log.d("fatosss", "Output Image: $outputImage")
                             Resource.success(outputImage)
                         } else if (status == "failed") {
-                            Log.e("fatosss", "Status failed")
                             Resource.error("STATUS FAILED", null)
                             break
                         }
                     } else {
-                        Log.e("fatosss", "Failed to fetch data. HTTP code: ${response.code()}")
                         Resource.error("Failed to fetch data", null)
                         break
                     }
@@ -92,10 +78,9 @@ class ImageRepositoryImpl @Inject constructor(
                 }
                 Resource.success(outputImage)
             } catch (e: Exception) {
-                Log.e("fatosss", "Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
                 Resource.error(e.localizedMessage?.toString() ?: "Exception occurred", null)
             }
         }
-    }
+}
 
 

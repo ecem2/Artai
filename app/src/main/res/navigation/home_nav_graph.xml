@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_artStyleFragment"
             app:destination="@id/artStyleFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_watchAdsFragment"
+            app:destination="@id/watchAdsFragment" />
         <argument
             android:name="itemPosition"
             app:argType="integer" />
@@ -23,6 +26,10 @@
             android:name="artStyle"
             app:nullable="true"
             app:argType="com.adentech.artai.data.model.ArtStyleModel" />
+        <argument
+            android:name="hasTemporaryAccess"
+            app:argType="boolean" />
+
 
     </fragment>
 
@@ -37,6 +44,10 @@
         <action
             android:id="@+id/action_generateFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_generateFragment_to_subscriptionFragment"
+            app:destination="@id/subscriptionFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/artStyleFragment"
@@ -83,6 +94,17 @@
         <action
             android:id="@+id/action_onboardThreeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/watchAdsFragment"
+        android:name="com.adentech.artai.ui.watch.WatchAdsFragment"
+        android:label="WatchAdsFragment" >
+        <action
+            android:id="@+id/action_watchAdsFragment_to_subscriptionFragment"
+            app:destination="@id/subscriptionFragment" />
+        <action
+            android:id="@+id/action_watchAdsFragment_to_homeFragment"
+            app:destination="@id/homeFragment"/>
     </fragment>
     <fragment
         android:id="@+id/subscriptionFragment"

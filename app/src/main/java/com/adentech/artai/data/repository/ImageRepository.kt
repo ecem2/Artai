@@ -5,7 +5,7 @@ import com.adentech.artai.data.model.output.OutputResponse
 
 interface ImageRepository {
 
-    suspend fun getUrlForGeneration(prompt: String, style: String, size: String): Resource<OutputResponse>
+    suspend fun getUrlForGeneration(prompt: String, style: String, width: Int, height: Int): Resource<OutputResponse>
     suspend fun getResultImage(url: String): Resource<String>
 
 }

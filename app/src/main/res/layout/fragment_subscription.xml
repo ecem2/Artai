@@ -25,12 +25,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.33" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/unlock_pro"
@@ -44,16 +38,16 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_28"
+                app:layout_constraintBottom_toTopOf="@+id/long_description"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_top" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/long_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_20"
-                android:layout_marginEnd="@dimen/margin_20"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="@dimen/margin_14"
                 android:fontFamily="@font/nunito_regular"
                 android:gravity="center"
                 android:text="Nec nullam a scelerisque nunc proin neque. Enim\n proin vel posuere egestas sed et et proin."
@@ -65,11 +59,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/unlock_pro" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+                android:id="@+id/ll_text"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_20"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginEnd="@dimen/margin_20"
+                android:layout_marginHorizontal="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_8"
                 android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -110,269 +104,248 @@
                     android:textSize="@dimen/text_size_14" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/gl_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.55" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ll_one"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_30"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginEnd="@dimen/margin_30"
+                android:layout_marginHorizontal="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_24"
+                android:background="@drawable/bg_pro_button"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_bottom"
-                android:background="@drawable/bg_pro_button"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@+id/ll_text">
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_pro_button"
                     app:cornerRadius="@dimen/margin_16"
                     app:layout_constraintBottom_toBottomOf="@+id/ll_one"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_left_button_two"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintGuide_percent="0.05"
-                    android:orientation="vertical"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/pro_no_tick_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_16"
                     android:src="@drawable/ic_pro_no_tick"
-                    app:layout_constraintStart_toEndOf="@+id/gl_left_button_two"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginStart="@dimen/margin_10"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/pro_no_tick_two">
+                    app:layout_constraintStart_toEndOf="@+id/pro_no_tick_two"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="50 Avatars"
-                        android:textSize="@dimen/text_size_14"
                         android:fontFamily="@font/nunito_bold"
-                        android:textColor="@color/white"/>
+                        android:text="50 Avatars"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5 variations of 10 styles"
-                        android:textSize="@dimen/text_size_14"
                         android:fontFamily="@font/nunito_regular"
-                        android:textColor="@color/gray_100"/>
+                        android:text="5 variations of 10 styles"
+                        android:textColor="@color/gray_100"
+                        android:textSize="@dimen/text_size_14" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₺219"
-                    android:textSize="@dimen/text_size_16"
+                    android:layout_marginEnd="15dp"
                     android:fontFamily="@font/nunito_bold"
-                    android:layout_marginEnd="@dimen/margin_18"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="₺219"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/white"/>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ll_two"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_30"
-                android:layout_marginTop="@dimen/margin_14"
-                android:layout_marginEnd="@dimen/margin_30"
+                android:layout_marginHorizontal="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_pro_button"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_one"
-                android:background="@drawable/bg_pro_button"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@+id/ll_one">
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_pro_button"
                     app:cornerRadius="@dimen/margin_16"
                     app:layout_constraintBottom_toBottomOf="@+id/ll_two"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_left_button_one"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintGuide_percent="0.05"
-                    android:orientation="vertical"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/pro_no_tick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_16"
                     android:src="@drawable/ic_pro_no_tick"
-                    app:layout_constraintStart_toEndOf="@+id/gl_left_button_one"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginStart="@dimen/margin_10"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/pro_no_tick">
+                    app:layout_constraintStart_toEndOf="@+id/pro_no_tick"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100 Avatars"
-                        android:textSize="@dimen/text_size_14"
                         android:fontFamily="@font/nunito_bold"
-                        android:textColor="@color/white"/>
+                        android:text="100 Avatars"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10 variations of 10 styles"
-                        android:textSize="@dimen/text_size_14"
                         android:fontFamily="@font/nunito_regular"
-                        android:textColor="@color/gray_100"/>
+                        android:text="10 variations of 10 styles"
+                        android:textColor="@color/gray_100"
+                        android:textSize="@dimen/text_size_14" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/button_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₺279"
-                    android:textSize="@dimen/text_size_16"
+                    android:layout_marginEnd="15dp"
                     android:fontFamily="@font/nunito_bold"
-                    android:layout_marginEnd="@dimen/margin_18"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="₺279"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/white"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_7"
+                    android:background="@drawable/bg_popular"
+                    android:fontFamily="@font/nunito_bold"
+                    android:padding="@dimen/margin_4"
                     android:text="Popular"
                     android:textColor="#FFDFD8"
-                    android:fontFamily="@font/nunito_bold"
                     android:textSize="11sp"
-                    android:background="@drawable/bg_popular"
-                    android:padding="@dimen/margin_4"
-                    android:layout_marginEnd="@dimen/margin_7"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/button_money"/>
+                    app:layout_constraintEnd_toStartOf="@+id/button_money"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ll_three"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_30"
-                android:layout_marginTop="@dimen/margin_14"
-                android:layout_marginEnd="@dimen/margin_30"
+                android:layout_marginHorizontal="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@drawable/bg_pro_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_two"
-                android:background="@drawable/bg_pro_button"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@+id/ll_two">
 
                 <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_pro_button"
                     app:cornerRadius="@dimen/margin_16"
                     app:layout_constraintBottom_toBottomOf="@+id/ll_three"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_left_button_three"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="17dp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/pro_no_tick_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_16"
                     android:src="@drawable/ic_pro_no_tick"
-                    app:layout_constraintStart_toEndOf="@+id/gl_left_button_three"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_marginStart="@dimen/margin_10"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/pro_no_tick_three">
+                    app:layout_constraintStart_toEndOf="@+id/pro_no_tick_three"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="200 Avatars"
-                        android:textSize="@dimen/text_size_14"
                         android:fontFamily="@font/nunito_bold"
-                        android:textColor="@color/white"/>
+                        android:text="200 Avatars"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20 variations of 10 styles"
-                        android:textSize="@dimen/text_size_14"
                         android:fontFamily="@font/nunito_regular"
-                        android:textColor="@color/gray_100"/>
+                        android:text="20 variations of 10 styles"
+                        android:textColor="@color/gray_100"
+                        android:textSize="@dimen/text_size_14" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₺309"
-                    android:textSize="@dimen/text_size_16"
+                    android:layout_marginEnd="15dp"
                     android:fontFamily="@font/nunito_bold"
-                    android:layout_marginEnd="@dimen/margin_18"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="₺309"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_16"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/white"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_continue"
                 android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:layout_marginStart="@dimen/margin_30"
-                android:layout_marginTop="@dimen/margin_18"
-                android:layout_marginEnd="@dimen/margin_30"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_16"
                 android:autoSizeMaxTextSize="@dimen/text_size_18"
                 android:autoSizeMinTextSize="@dimen/text_size_14"
-                android:textSize="@dimen/text_size_16"
                 android:autoSizeTextType="uniform"
-                android:text="Contiune"
+                android:background="@drawable/generate_bg_button"
                 android:fontFamily="@font/nunito_bold"
+                android:text="Contiune"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:background="@drawable/generate_bg_button"
+                android:textSize="@dimen/text_size_16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_three" />
@@ -380,36 +353,40 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_14"
+                android:layout_marginBottom="@dimen/margin_14"
                 android:gravity="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_continue">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_regular"
                     android:text="Privacy Policy"
-                    android:textSize="@dimen/text_size_13"
-                    android:fontFamily="@font/nunito_regular"
-                    android:textColor="@color/gray_100"/>
+                    android:textColor="@color/gray_100"
+                    android:textSize="@dimen/text_size_13" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_size_28"
+                    android:fontFamily="@font/nunito_regular"
                     android:text="Restore Purchases"
-                    android:layout_marginStart="@dimen/text_size_28"
-                    android:textSize="@dimen/text_size_13"
-                    android:fontFamily="@font/nunito_regular"
-                    android:textColor="@color/gray_100"/>
+                    android:textColor="@color/gray_100"
+                    android:textSize="@dimen/text_size_13" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terms of Use"
                     android:layout_marginStart="@dimen/text_size_28"
-                    android:textSize="@dimen/text_size_13"
                     android:fontFamily="@font/nunito_regular"
-                    android:textColor="@color/gray_100"/>
+                    android:text="Terms of Use"
+                    android:textColor="@color/gray_100"
+                    android:textSize="@dimen/text_size_13" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
