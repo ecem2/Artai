@@ -7,7 +7,7 @@
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.adentech.artai.ui.home.HomeFragment"
+        android:name="com.hc.artai.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -19,13 +19,17 @@
         <action
             android:id="@+id/action_homeFragment_to_watchAdsFragment"
             app:destination="@id/watchAdsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+
         <argument
             android:name="itemPosition"
             app:argType="integer" />
         <argument
             android:name="artStyle"
             app:nullable="true"
-            app:argType="com.adentech.artai.data.model.ArtStyleModel" />
+            app:argType="com.hc.artai.data.model.ArtStyleModel" />
         <argument
             android:name="hasTemporaryAccess"
             app:argType="boolean" />
@@ -35,12 +39,15 @@
 
     <fragment
         android:id="@+id/generateFragment"
-        android:name="com.adentech.artai.ui.generate.GenerateFragment"
+        android:name="com.hc.artai.ui.generate.GenerateFragment"
         android:label="GenerateFragment"
         tools:layout="@layout/fragment_generate">
         <argument
             android:name="requestModel"
-            app:argType="com.adentech.artai.data.model.RequestModel" />
+            app:argType="com.hc.artai.data.model.RequestModel" />
+        <argument
+            android:name="promptText"
+            app:argType="string" />
         <action
             android:id="@+id/action_generateFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -51,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/artStyleFragment"
-        android:name="com.adentech.artai.ui.arts.ArtStyleFragment"
+        android:name="com.hc.artai.ui.arts.ArtStyleFragment"
         android:label="ArtStyleFragment"
         tools:layout="@layout/fragment_art_style">
 
@@ -61,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.adentech.artai.ui.splash.SplashFragment"
+        android:name="com.hc.artai.ui.splash.SplashFragment"
         android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
@@ -72,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardFragment"
-        android:name="com.adentech.artai.ui.onboard.OnboardFragment"
+        android:name="com.hc.artai.ui.onboard.OnboardFragment"
         android:label="OnboardFragment">
         <action
             android:id="@+id/action_onboardFragment_to_onboardTwoFragment"
@@ -80,24 +87,24 @@
     </fragment>
     <fragment
         android:id="@+id/onboardTwoFragment"
-        android:name="com.adentech.artai.ui.onboard.OnboardTwoFragment"
+        android:name="com.hc.artai.ui.onboard.OnboardTwoFragment"
         android:label="OnboardTwoFragment">
         <action
-            android:id="@+id/action_onboardTwoFragment_to_onboardThreeFragment"
-            app:destination="@id/onboardThreeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/onboardThreeFragment"
-        android:name="com.adentech.artai.ui.onboard.OnboardThreeFragment"
-        android:label="OnboardThreeFragment">
-
-        <action
-            android:id="@+id/action_onboardThreeFragment_to_homeFragment"
+            android:id="@+id/action_onboardTwoFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/onboardThreeFragment"-->
+<!--        android:name="com.hc.artai.ui.onboard.OnboardThreeFragment"-->
+<!--        android:label="OnboardThreeFragment">-->
+
+<!--        <action-->
+<!--            android:id="@+id/action_onboardThreeFragment_to_homeFragment"-->
+<!--            app:destination="@id/homeFragment" />-->
+<!--    </fragment>-->
     <fragment
         android:id="@+id/watchAdsFragment"
-        android:name="com.adentech.artai.ui.watch.WatchAdsFragment"
+        android:name="com.hc.artai.ui.watch.WatchAdsFragment"
         android:label="WatchAdsFragment" >
         <action
             android:id="@+id/action_watchAdsFragment_to_subscriptionFragment"
@@ -108,7 +115,25 @@
     </fragment>
     <fragment
         android:id="@+id/subscriptionFragment"
-        android:name="com.adentech.artai.data.billing.SubscriptionFragment"
+        android:name="com.hc.artai.data.billing.SubscriptionFragment"
         android:label="SubscriptionFragment" />
-
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.hc.artai.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.hc.artai.ui.webview.WebViewFragment"
+        android:label="WebViewFragment" >
+    <argument
+        android:name="title"
+        app:argType="string" />
+    </fragment>
 </navigation>

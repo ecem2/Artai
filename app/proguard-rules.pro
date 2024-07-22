@@ -69,7 +69,7 @@
 # If you use dexguard, must add to following;
 -keep,allowshrinking class com.google.firebase.** { *; }
 
--keep class com.adentech.artai.databinding.**{*;}
+-keep class com.hc.artai.databinding.**{*;}
 
 
 #GSON

@@ -1,135 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_blur"
-        android:id="@+id/fragment_container">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
-        android:layout_marginEnd="@dimen/margin_16"
-       app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/bg_black_watch">
+        android:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_watch"
-            android:padding="@dimen/margin_10"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_watch">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/watch_icon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_watch_icon"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/limit_text"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="Daily limit of free creations"
-                android:textColor="@color/white"
-                android:fontFamily="@font/nunito_bold"
-                android:textSize="18sp"
-                android:layout_marginTop="8dp"
-                android:textAllCaps="false"
-                app:layout_constraintTop_toBottomOf="@+id/watch_icon"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_pro"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="You can remove the ads and get\n unlimited access with ToonAI Pro"
-                android:fontFamily="@font/nunito_regular"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:lines="2"
-                android:textColor="@color/gray_100"
-                android:layout_marginTop="@dimen/margin_8"
-                app:layout_constraintTop_toBottomOf="@+id/limit_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button_remove_limits"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Remove Limits"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_16"
-                android:textAllCaps="false"
-                android:padding="16dp"
-                android:fontFamily="@font/nunito_bold"
-                android:background="@drawable/bg_select"
-                android:layout_marginTop="@dimen/margin_18"
-                app:layout_constraintStart_toStartOf="@+id/button_watch_ads"
-                app:layout_constraintEnd_toEndOf="@+id/button_watch_ads"
-                app:layout_constraintTop_toBottomOf="@+id/text_pro"/>
-
-
-
-            <FrameLayout
-                android:id="@+id/button_watch_ads"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_select_watch"
-                android:padding="16dp"
-                android:layout_marginTop="@dimen/margin_12"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_remove_limits">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:background="@drawable/bg_watch_ads_pro"
+                    android:padding="@dimen/margin_10"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/icon_play_watch"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/watch_icon"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/margin_3"
-                        android:src="@drawable/ic_watch_play"
-                        android:layout_marginEnd="8dp" />
+                        android:background="@drawable/bg_watch_icon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_watch"
+                        android:id="@+id/limit_text"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Watch the Ads"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_16"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="Daily limit of free creations"
                         android:textAllCaps="false"
-                        android:fontFamily="@font/nunito_bold" />
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/watch_icon" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/icon_number"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_pro"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:fontFamily="@font/nunito_regular"
+                        android:gravity="center"
+                        android:lines="2"
+                        android:text="You can remove the ads and get\n unlimited access with ToonAI Pro"
+                        android:textColor="@color/gray_100"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/limit_text" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_remove_limits"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_18"
+                        android:background="@drawable/bg_select"
+                        android:fontFamily="@font/nunito_bold"
+                        android:padding="16dp"
+                        android:text="Remove Limits"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16"
+                        app:layout_constraintEnd_toEndOf="@+id/button_watch_ads"
+                        app:layout_constraintStart_toStartOf="@+id/button_watch_ads"
+                        app:layout_constraintTop_toBottomOf="@+id/text_pro" />
+
+
+                    <FrameLayout
+                        android:id="@+id/button_watch_ads"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/margin_3"
-                        android:src="@drawable/ic_number"
-                        android:layout_marginStart="8dp" />
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:background="@drawable/bg_select_watch"
 
-                </LinearLayout>
-            </FrameLayout>
+                        android:padding="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/button_remove_limits">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/icon_play_watch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:padding="@dimen/margin_3"
+                                android:src="@drawable/ic_watch_play" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_watch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_bold"
+                                android:text="Watch the Ads"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_size_16" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/icon_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="@dimen/margin_3"
+                                android:src="@drawable/ic_number" />
+
+                        </LinearLayout>
+                    </FrameLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

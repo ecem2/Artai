@@ -16,7 +16,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/sub_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_exit_sub"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"/>
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,16 +145,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_10"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/one_money"
                     app:layout_constraintStart_toEndOf="@+id/pro_no_tick_two"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_bold"
                         android:text="50 Avatars"
@@ -154,7 +163,7 @@
                         android:textSize="@dimen/text_size_14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_regular"
                         android:text="5 variations of 10 styles"
@@ -163,6 +172,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/one_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
@@ -207,16 +217,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_10"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/two_money"
                     app:layout_constraintStart_toEndOf="@+id/pro_no_tick"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_bold"
                         android:text="100 Avatars"
@@ -224,7 +235,7 @@
                         android:textSize="@dimen/text_size_14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_regular"
                         android:text="10 variations of 10 styles"
@@ -246,6 +257,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/two_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_7"
@@ -292,16 +304,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_10"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/three_money"
                     app:layout_constraintStart_toEndOf="@+id/pro_no_tick_three"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_bold"
                         android:text="200 Avatars"
@@ -309,7 +322,7 @@
                         android:textSize="@dimen/text_size_14" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_regular"
                         android:text="20 variations of 10 styles"
@@ -318,6 +331,7 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/three_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"

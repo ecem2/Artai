@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.adentech.artai.ui.onboard.OnboardViewModel" />
+            type="com.hc.artai.ui.onboard.OnboardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,99 +19,102 @@
             android:id="@+id/iv_onboard"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:src="@drawable/onboard_one"
             android:scaleType="fitXY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/onboard_one"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15"/>
+            app:layout_constraintGuide_percent="0.15" />
 
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/transparent_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/onboard_transparent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gl_top"/>
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/transparent_iv"
-        app:layout_constraintEnd_toEndOf="@+id/transparent_iv"
-        app:layout_constraintTop_toBottomOf="@+id/gl_top"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/transparent_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Odio sit mauris nunc ipsum in\n consectetur eu nunc."
-            android:textSize="@dimen/text_size_14"
-            android:textColor="@color/white"
-            android:padding="@dimen/margin_2"
-            android:fontFamily="@font/nunito_bold"
-            android:layout_marginTop="@dimen/margin_12"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Style Fantasy"
-            android:textSize="@dimen/text_size_14"
-            android:textColor="@color/gray_100"
-            android:padding="@dimen/margin_2"
-            android:fontFamily="@font/nunito_regular"
-            android:layout_marginTop="@dimen/margin_2"/>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:src="@drawable/onboard_transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gl_top" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/ll_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintStart_toStartOf="@+id/transparent_iv"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="@+id/transparent_iv"
-            app:layout_constraintBottom_toTopOf="@+id/next"
-            android:orientation="vertical">
+            app:layout_constraintStart_toStartOf="@+id/transparent_iv"
+            app:layout_constraintTop_toBottomOf="@+id/gl_top">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create your own\n masterpiece with AI"
-                android:gravity="center"
-                android:textSize="@dimen/text_size_28"
-                android:textColor="@color/white"
-                android:fontFamily="@font/nunito_bold"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="With the power of ToonAI, transform your\n idea and art style into a beautiful painting."
-                android:gravity="center"
-                android:textSize="@dimen/text_size_14"
-                android:textColor="@color/gray_100"
+                android:layout_marginTop="@dimen/margin_12"
+                android:fontFamily="@font/nunito_bold"
                 android:padding="@dimen/margin_2"
+                android:text="Odio sit mauris nunc ipsum in\n consectetur eu nunc."
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
                 android:fontFamily="@font/nunito_regular"
-                android:layout_marginTop="9dp"/>
+                android:padding="@dimen/margin_2"
+                android:text="Style Fantasy"
+                android:textColor="@color/gray_100"
+                android:textSize="@dimen/text_size_14" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-<androidx.appcompat.widget.AppCompatImageView
-    android:id="@+id/next"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="34dp"
-    android:src="@drawable/onboard_next"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_bold"
+                android:gravity="center"
+                android:text="Create your own\n masterpiece with AI"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_28" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/nunito_regular"
+                android:gravity="center"
+                android:padding="@dimen/margin_2"
+                android:text="With the power of ToonAI, transform your\n idea and art style into a beautiful painting."
+                android:textColor="@color/gray_100"
+                android:textSize="@dimen/text_size_14" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="34dp"
+            android:src="@drawable/onboard_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -2,114 +2,120 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:id="@+id/container"
-        android:background="@drawable/bg_blur"
-        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.18" />
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_black"
-        android:layout_gravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gl_top"
-        app:layout_constraintStart_toStartOf="parent">
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.001" />
+        android:layout_height="match_parent"
+        android:background="@color/black">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/bottom_bg"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gl_bottom"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_home">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_art_style_title"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
-            android:layout_marginStart="@dimen/margin_24"
-            android:text="Select Style"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_18"
-            app:layout_constraintBottom_toTopOf="@+id/gl_art_style_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gl_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_right"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_exit"
-            android:layout_marginEnd="@dimen/margin_24"
-            app:layout_constraintBottom_toTopOf="@+id/gl_art_style_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/gl_art_style_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.10" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_art_style"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_24"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginEnd="@dimen/margin_24"
-                android:layout_marginBottom="@dimen/margin_10"
-                app:spanCount="3"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/button_continue"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_black"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gl_art_style_title"
-                app:layout_constraintVertical_bias="0"
-            tools:listitem="@layout/item_art_style" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_continue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
-            android:textAllCaps="false"
-            android:fontFamily="@font/nunito_bold"
-            app:cornerRadius="20dp"
-            android:background="@drawable/bg_select"
-            app:backgroundTint="@null"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginBottom="@dimen/margin_20"
-            android:layout_marginStart="@dimen/margin_24"
-            android:layout_marginEnd="@dimen/margin_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_art_style"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/gl_top">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gl_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.001" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/bg_black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/gl_bottom">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_art_style_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginTop="@dimen/margin_24"
+                        android:fontFamily="@font/nunito_bold"
+                        android:gravity="center"
+                        android:text="Select Style"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_18"
+                        app:layout_constraintBottom_toTopOf="@+id/rv_art_style"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_right"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="@dimen/margin_24"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:src="@drawable/ic_exit"
+                        app:layout_constraintBottom_toTopOf="@+id/rv_art_style"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_art_style"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/margin_16"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginEnd="@dimen/margin_16"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintBottom_toTopOf="@+id/button_continue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_art_style_title"
+                        app:layout_constraintVertical_bias="0"
+                        app:spanCount="3"
+                        tools:listitem="@layout/item_art_style" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_continue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginBottom="@dimen/margin_50"
+                        android:background="@drawable/bg_select"
+                        android:fontFamily="@font/nunito_bold"
+                        android:text="Select"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_16"
+                        app:backgroundTint="@null"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_art_style" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

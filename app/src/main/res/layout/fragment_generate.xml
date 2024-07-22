@@ -10,73 +10,84 @@
         android:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_loading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_home">
+            android:background="@drawable/bg_loading"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/nunito_bold"
+                android:text="Creating your idea..."
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loading" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_generate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_generate_result"
+            android:visibility="visible">
 
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:layout_marginStart="@dimen/margin_12"
                 android:src="@drawable/ic_generate_exit"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_generate_title"
                 app:layout_constraintEnd_toStartOf="@+id/tv_generate_title"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_generate_title" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_generate_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
                 android:text="Artwork Name"
                 android:textAllCaps="false"
-                android:layout_marginTop="16dp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16"
-                app:layout_constraintEnd_toStartOf="@+id/button_edit"
+                android:layout_marginEnd="@dimen/margin_20"
+                app:layout_constraintBottom_toTopOf="@+id/bg_image"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_back"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/button_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/ic_generate_edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bg_image"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginTop="26dp"
                 android:layout_marginStart="@dimen/margin_24"
+                android:layout_marginTop="26dp"
                 android:layout_marginEnd="@dimen/margin_24"
+                app:layout_constraintBottom_toTopOf="@+id/description"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_generate_title">
-
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/animationView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHeight_percent="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/image_loading" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_back">
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/iv_generated_image"
@@ -94,12 +105,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="26dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/bg_artwork_black"
                 android:fontFamily="@font/nunito_regular"
                 android:gravity="center"
-                android:layout_marginTop="36dp"
-                android:text="Orci proin mauris ultrices fusce nunc. Placerat sed lectus mauris"
+                android:padding="@dimen/margin_12"
+                android:paddingStart="@dimen/margin_24"
+                android:text=" "
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,12 +121,14 @@
 
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_generate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description">
@@ -157,4 +172,5 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.adentech.artai.ui.home.HomeViewModel" />
+            type="com.hc.artai.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_container"
         android:background="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,9 +25,10 @@
                 android:id="@+id/menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/ic_menu"
+                app:layout_constraintBottom_toTopOf="@+id/tv_enter_prompt"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,9 +36,11 @@
                 android:id="@+id/pro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="@dimen/margin_16"
+                android:visibility="visible"
                 android:src="@drawable/bg_pro"
+                app:layout_constraintBottom_toTopOf="@+id/tv_enter_prompt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,8 +49,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:autoSizeMaxTextSize="@dimen/text_size_28"
                 android:autoSizeMinTextSize="@dimen/text_size_24"
                 android:autoSizeTextType="uniform"
@@ -57,37 +60,16 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_26"
-                app:layout_constraintEnd_toStartOf="@+id/tv_suprise_me"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_suprise_me"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_8"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/margin_4"
-                android:autoSizeMaxTextSize="@dimen/text_size_14"
-                android:autoSizeMinTextSize="@dimen/text_size_10"
-                android:autoSizeTextType="uniform"
-                android:fontFamily="@font/nunito_bold"
-                android:gravity="center"
-                android:text="Suprise me"
-                android:layout_gravity="center"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_12"
-                android:background="@drawable/bg_all"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_enter_prompt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_enter_prompt"
-                app:layout_constraintTop_toTopOf="@+id/tv_enter_prompt" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/menu" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_24"
                 android:layout_marginEnd="@dimen/margin_24"
                 app:cardBackgroundColor="@color/black"
                 app:cardCornerRadius="20dp"
@@ -95,37 +77,63 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_enter_prompt">
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_prompt"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:autoSizeMaxTextSize="@dimen/text_size_20"
-                    android:autoSizeMinTextSize="@dimen/text_size_12"
-                    android:autoSizeTextType="uniform"
-                    android:background="@null"
-                    android:ems="10"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:fontFamily="@font/nunito_regular"
-                    android:gravity="top|start|center"
-                    android:hint="Flying ant"
-                    android:padding="@dimen/padding_16"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textColorHint="#80FFFFFF"
-                    android:textCursorDrawable="@drawable/et_cursor"
-                    android:textSize="@dimen/text_size_16"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_16">
 
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_prompt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:autoSizeMaxTextSize="@dimen/text_size_20"
+                        android:autoSizeMinTextSize="@dimen/text_size_12"
+                        android:autoSizeTextType="uniform"
+                        android:background="@null"
+                        android:ems="10"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/nunito_regular"
+                        android:gravity="top|start"
+                        android:hint="Flying car in space"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textColorHint="#80FFFFFF"
+                        android:textCursorDrawable="@drawable/et_cursor"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/txt_exit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_marginStart="@dimen/margin_20"
+                        android:src="@drawable/ic_text_exit" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.material.card.MaterialCardView>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="@dimen/margin_3"
+                android:fontFamily="@font/nunito_regular"
+                android:text="0/500"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_size_title"
+                app:layout_constraintEnd_toEndOf="@+id/card_edit_text"
+                app:layout_constraintTop_toBottomOf="@+id/card_edit_text" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_size_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginEnd="@dimen/margin_16"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="start|center"
@@ -135,17 +143,17 @@
                 android:textSize="@dimen/text_size_16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_edit_text" />
+                app:layout_constraintTop_toBottomOf="@+id/text_size" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
                 android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_14"
                 android:layout_marginEnd="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_12"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_size_title">
@@ -154,12 +162,12 @@
                     android:id="@+id/ll_square"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="12dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_size"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="12dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_size_title">
 
@@ -184,13 +192,13 @@
                     android:id="@+id/ll_rectangle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="12dp"
                     android:layout_marginStart="@dimen/margin_8"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_size"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="12dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_size_title">
 
@@ -215,13 +223,13 @@
                     android:id="@+id/ll_vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="12dp"
                     android:layout_marginStart="@dimen/margin_8"
+                    android:layout_weight="1"
                     android:background="@drawable/bg_size"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="12dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_size_title">
 
@@ -244,13 +252,12 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_art_style_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="26dp"
                 android:layout_marginEnd="16dp"
                 android:autoSizeMaxTextSize="@dimen/text_size_20"
                 android:autoSizeMinTextSize="@dimen/text_size_12"
@@ -261,16 +268,14 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_18"
-                app:layout_constraintTop_toBottomOf="@+id/ll_size"
                 app:layout_constraintEnd_toStartOf="@+id/tv_see_all"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_size" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_see_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="18dp"
-                android:paddingVertical="10dp"
                 android:layout_marginEnd="@dimen/margin_16"
                 android:autoSizeMaxTextSize="@dimen/text_size_16"
                 android:autoSizeMinTextSize="@dimen/text_size_12"
@@ -278,6 +283,8 @@
                 android:background="@drawable/bg_all"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
+                android:paddingHorizontal="18dp"
+                android:paddingVertical="10dp"
                 android:text="See all"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
@@ -306,17 +313,19 @@
                 android:id="@+id/button_generate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="18dp"
-                android:layout_marginTop="26dp"
                 android:layout_marginHorizontal="@dimen/margin_16"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="@dimen/margin_5"
                 android:autoSizeMaxTextSize="@dimen/text_size_20"
                 android:autoSizeMinTextSize="@dimen/text_size_12"
                 android:autoSizeTextType="uniform"
-                android:textSize="16sp"
+                android:background="@drawable/generate_bg_button"
+                android:paddingVertical="18dp"
                 android:text="Generate"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:background="@drawable/generate_bg_button"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rv_art_style" />

@@ -1,4 +1,4 @@
-package com.adentech.artai
+package com.hc.artai
 
 import org.junit.Test
 

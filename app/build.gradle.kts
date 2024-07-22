@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace = "com.adentech.artai"
+    namespace = "com.hc.artai"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.adentech.artai"
+        applicationId = "com.hc.artai"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

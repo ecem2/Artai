@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.adentech.artai.ui.onboard.OnboardViewModel" />
+            type="com.hc.artai.ui.onboard.OnboardViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

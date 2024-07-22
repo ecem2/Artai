@@ -166,4 +166,5 @@
 
     <dimen name="paddingItemDecorationDefault">10dp</dimen>
     <dimen name="paddingItemDecorationEdge">20dp</dimen>
+    <dimen name="margin_45">45dp</dimen>
 </resources>

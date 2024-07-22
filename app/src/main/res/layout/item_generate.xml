@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.adentech.artai.data.model.GenerateModel" />
+            type="com.hc.artai.data.model.GenerateModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
